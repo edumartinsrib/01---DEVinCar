@@ -1,3 +1,5 @@
+
+
 class Menu_Principal:
     mensagem_inicial = '''
         
@@ -10,6 +12,12 @@ class Menu_Principal:
             '4': 'Vender veículo',
             '5': 'Acessar Relatórios',
             '6': 'Sair'
+        }
+        self.escolha_tipo_informacao = {
+            '1': 'Tipo de veículo',
+            '2': 'Nome (Modelo)',
+            '3': 'Chassi',
+            '4': 'Placa'
         }
         self.__escolha_veiculo = {
             '1': 'Carro',
@@ -51,6 +59,11 @@ class Menu_Principal:
             '3': 'Carros vendidos por faixa de preço',
             '4': 'Voltar'
         }
+        self.menu_modificacoes_veiculos = {
+            '1': 'Alterar a cor do veículo',
+            '2': 'Alterar o valor do veículo',
+            '3': 'Voltar'
+        }
     
     @property
     def menu_principal(self):
@@ -60,31 +73,10 @@ class Menu_Principal:
     def escolha_veiculo(self):
         return self.__escolha_veiculo
     
-    def get_menu_principal(self):
-        for key, value in self.__menu_principal.items():
-            print(f'{key} - {value}')
-            
-    def get_menu_relatorios(self):
-        for key, value in self.__menu_relatorios.items():
+    def get_menu(self, menu):
+        for key, value in menu.items():
             print(f'{key} - {value}')
     
-    def get_menu_relatorio_veiculos(self):
-        for key, value in self._menu_relatorio_veiculos.items():
-            print(f'{key} - {value}')
     
-    def get_menu_relatorio_vendas(self):
-        for key, value in self._menu_relatorio_vendas.items():
-            print(f'{key} - {value}')
-            
-    def get_menu_relatorio_carros_disponiveis(self):
-        for key, value in self._menu_relatorio_carros_disponiveis.items():
-            print(f'{key} - {value}')
-    
-    def get_menu_relatorio_carros_vendidos(self):
-        for key, value in self._menu_relatorio_carros_vendidos.items():
-            print(f'{key} - {value}')
-    
-    def get_escolha_veiculo(self):
-        for key, value in self.__escolha_veiculo.items():
-            print(f'{key} - {value}')
-    
+        
+        

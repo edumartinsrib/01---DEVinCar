@@ -20,8 +20,8 @@ class Veiculos:
     
     def __init__(self):
         self.tipo_veiculo = None
-        self.numero_chassi: str = uuid4().fields[-1].to_bytes(8, 'big').hex()
-        self.data_fabricao: str = None
+        self.numero_chassi: str = uuid4().fields[-1].to_bytes(5, 'big').hex()
+        self.data_fabricacao: str = None
         self.nome: str = None
         self.placa: str = None
         self.valor: int = None
@@ -48,7 +48,7 @@ class Veiculos:
             else:
                 print('Opção inválida')
     
-        self.data_fabricao = input("Digite a data de fabricação do veiculo: ")
+        self.data_fabricacao = input("Digite a data de fabricação do veiculo: ")
     
     def exibe_cores_disponiveis(self, tipo_veiculo):
         if tipo_veiculo == 'Caminhonete':

@@ -8,16 +8,17 @@ from data.database import Database as db
 ##comando cls para limpar a tela
 
 if __name__ == '__main__':
+    os.system('cls')
     while True:
         database = db()
         menu = Menu_Principal()
-        menu.get_menu_principal()
+        menu.get_menu(menu.menu_principal)
         opcao = input('Escolha uma opção: ')
-        os.system('cls')
         if opcao in menu.menu_principal:
             if opcao == '1':
                 while True:
-                    menu.get_escolha_veiculo()
+                    #menu.get_escolha_veiculo()
+                    menu.get_menu(menu.escolha_veiculo)
                     opcao = input('Escolha o tipo de veículo para cadastro: ')
                     if opcao in menu.escolha_veiculo:
                         if opcao == '1':
@@ -41,11 +42,19 @@ if __name__ == '__main__':
                     else:
                         print('Opção inválida')
             elif opcao == '2':
-                database.show_list_veiculos()
-                print('teste')
+                database.listar_todos_veiculos_menu()
             elif opcao == '3':
                 ## pesquisar veículo para alteração
-                menu.get_escolha_veiculo()
+                while True:
+                    database.listar_todos_veiculos_menu()
+                    opcao_chassi = input('Escolha o veiculo para editar (utilizar numero do chassi): ')
+                    veiculo = database.show_veiculo(opcao_chassi)
+                    if veiculo != 'Veiculo não encontrado':
+                        while True:
+                            menu.get_menu(menu.menu_modificacoes_veiculos)
+                            opcao_modificacao = input('Escolha uma opção: ')
+                           
+                
                     
             elif opcao == '4':
                 break
