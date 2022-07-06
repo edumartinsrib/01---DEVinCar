@@ -1,15 +1,31 @@
 from .cls_veiculos import Veiculos
- 
+
+
 class Carro(Veiculos):
-        def __init__(self):
-             super().__init__()
-             self.combustivel: str = None
-             self.qtd_portas: int = None
-             self.potencia: int = None
-        
-        def cadastrar_veiculo(self, tipo_veiculo):
-               super().cadastrar_veiculo(tipo_veiculo)
-               self.combustivel = input('Digite o tipo de combustivel: ')
-               self.potencia = input('Digite a potencia: ')
-               self.qtd_portas = input('Digite a quantidade de portas: ')
-               print('Veiculo cadastrado com sucesso!')
+    opt_combustivel = {
+        1: "Somente Gasolina",
+        2: "Flex",
+    }
+
+    def __init__(self):
+        super().__init__()
+        self.combustivel: str = None
+        self.qtd_portas: int = None
+        self.potencia: int = None
+
+    def cadastrar_veiculo(self, tipo_veiculo):
+        super().cadastrar_veiculo(tipo_veiculo)
+        while True:
+            self.escolher_combustivel()
+            opcao = int(input("Escolha a opção de combustivel para o veículo: "))
+            if opcao in self.opt_combustivel.keys():
+                self.combustivel = self.opt_combustivel[opcao]
+                break
+            
+        self.potencia = int(input("Digite a potencia (CV): "))
+        self.qtd_portas = int(input("Digite a quantidade de portas: "))
+        print("Veiculo cadastrado com sucesso!")
+
+    def escolher_combustivel(self):
+        for combustivel in self.opt_combustivel:
+            print(f"{combustivel} - {self.opt_combustivel[combustivel]}")

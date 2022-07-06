@@ -11,6 +11,12 @@ class Menu_Principal:
             '5': 'Acessar Relatórios',
             '6': 'Sair'
         }
+        self.__escolha_veiculo = {
+            '1': 'Carro',
+            '2': 'Moto/Triciclo',
+            '3': 'Caminhonete',
+            '4': 'Voltar'
+        }
         self.__menu_relatorios = {
             '1': 'Relatório de veículos',
             '2': 'Relatório de vendas',
@@ -50,6 +56,10 @@ class Menu_Principal:
     def menu_principal(self):
         return self.__menu_principal
     
+    @property
+    def escolha_veiculo(self):
+        return self.__escolha_veiculo
+    
     def get_menu_principal(self):
         for key, value in self.__menu_principal.items():
             print(f'{key} - {value}')
@@ -74,4 +84,7 @@ class Menu_Principal:
         for key, value in self._menu_relatorio_carros_vendidos.items():
             print(f'{key} - {value}')
     
+    def get_escolha_veiculo(self):
+        for key, value in self.__escolha_veiculo.items():
+            print(f'{key} - {value}')
     
