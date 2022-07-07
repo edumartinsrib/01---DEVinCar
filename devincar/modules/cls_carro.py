@@ -1,4 +1,5 @@
 from .cls_veiculos import Veiculos
+from .cls_validacoes import Validacoes
 
 class Carro(Veiculos):
     opt_combustivel = {
@@ -14,12 +15,15 @@ class Carro(Veiculos):
         self.qtd_portas: int = None
 
     def cadastrar_veiculo(self, db):
-        super().cadastrar_veiculo()
-        self.escolher_combustivel()
-        self.qtd_portas = int(input("Digite a quantidade de portas (litros): "))
-        super().salvar_veiculo(db)
-        print("Veiculo cadastrado com sucesso!")
-
+        try:
+            super().cadastrar_veiculo()
+            self.escolher_combustivel()
+            self.qtd_portas = Validacoes.valida_inteiro("Digite a quantidade de portas do veiculo: ")
+            super().salvar_veiculo(db)
+            
+        except ValueError:
+            print("Valor inválido")
+            
     def escolher_combustivel(self):
         for combustivel in self.opt_combustivel:
             print(f"{combustivel} - {self.opt_combustivel[combustivel]}")

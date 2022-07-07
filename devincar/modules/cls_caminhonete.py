@@ -1,4 +1,5 @@
 from .cls_veiculos import Veiculos
+from .cls_validacoes import Validacoes
 
 class Caminhonete(Veiculos):
 
@@ -20,14 +21,13 @@ class Caminhonete(Veiculos):
         self.combustivel: str = None
         self.capacidade_carregamento: float = None
 
-    def cadastrar_veiculo(self):
+    def cadastrar_veiculo(self, db):
         super().cadastrar_veiculo()
-        self.qtd_portas = int(input("Digite a quantidade de portas do veiculo: "))
+        self.qtd_portas = Validacoes.valida_inteiro("Digite a quantidade de portas do veiculo: ")
         self.escolher_combustivel()
-        self.capacidade_carregamento = float(input("Digite a capacidade de carregamento do veiculo: "))
-        super().salvar_veiculo()
-        print("Veiculo cadastrado com sucesso!")
-
+        self.capacidade_carregamento = Validacoes().valida_float("Digite a capacidade de carregamento do veiculo: ")
+        super().salvar_veiculo(db)
+        
     def escolher_combustivel(self):
         for combustivel in self.opt_combustivel:
             print(f"{combustivel} - {self.opt_combustivel[combustivel]}")

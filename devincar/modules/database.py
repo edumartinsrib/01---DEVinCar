@@ -66,16 +66,19 @@ class Database:
         return self.dados_local
     
     def salvar_veiculo(self, veiculo):
-        self.dados_local.insert(veiculo)
+        self.dados_local.append(veiculo)
         self.dados_externos.insert(veiculo.__dict__)
+        input("\nVeículo salvo com sucesso - pressione qualquer tecla para continuar...")
+        system('cls')
     
-    def alterar_veiculo(self, veiculo):
+    def atualizar_veiculo(self, veiculo):
         try:
             for veiculo_salvo in self.dados_local:
-                if veiculo_salvo['placa'] == veiculo.placa:
+                if veiculo_salvo.placa == veiculo.placa:
                     veiculo_salvo = veiculo
                     self.dados_externos.update(veiculo.__dict__, Query().placa == veiculo.placa)
-                    print("Veículo alterado com sucesso")
+                    input("\nVeículo alterado com sucesso - pressione qualquer tecla para continuar...")
+                    system('cls')
                     return True
         except Exception as e:
             print(e)
@@ -92,10 +95,21 @@ class Database:
     def verifica_existencia_veiculo(self, key, valor):
         if self.dados_externos.contains(Query()[key] == valor) == True:
             return True
+        print("\nVeículo não encontrado!")
         return False
 
-    def get_veiculo(self, key, valor):
-        return self.dados_externos.get(Query()[key] == valor)
+    def verifica_disponibilidade_veiculo(self, placa):
+        for veiculo in self.dados_local:
+            if veiculo.placa == placa and veiculo.cpf_comprador == 0:
+                return True
+        print("\nVeículo não disponível!")
+        return False
+    
+    def get_veiculo(self, placa_veiculo):
+        for veiculo in self.dados_local:
+            if veiculo.placa == placa_veiculo:
+                return veiculo
+        return None
 
     def vender_veiculo(self, key, valor_filtro, valor):
         self.dados_externos.update({'cpf_comprador': valor}, Query()[key] == valor_filtro)
