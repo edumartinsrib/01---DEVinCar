@@ -11,9 +11,12 @@ class HistoricoVendas():
         self.dados_vendas_locais = self.carrega_dados_vendas()
     
     def carrega_dados_vendas(self):
-        self.dados_vendas_locais = self.historico_vendas.all()
-        
-    def cadastrar_nova_venda(self, veiculo):
+        self.dados_vendas_locais = []
+        for venda in self.historico_vendas.all():
+            self.dados_vendas_locais.append(venda)
+        return self.dados_vendas_locais
+
+    def adicionar_venda(self, veiculo):
         self.historico_vendas.insert(veiculo.__dict__)
         self.dados_vendas_locais.append(veiculo.__dict__)
         

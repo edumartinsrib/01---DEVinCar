@@ -1,4 +1,5 @@
 from os import system
+from devincar.modules.cls_validacoes import Validacoes
 from modules import *
 
 db = Database()
@@ -52,8 +53,7 @@ if __name__ == "__main__":
                         system("cls")
                     else:
                          input('Opção inválida')
-                         system("cls")
-                    
+                         system("cls")  
             elif opcao == "3":
                 while True:
                     print("Digite a placa do veículo que deseja alterar:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
@@ -66,9 +66,8 @@ if __name__ == "__main__":
                     if placa == "LISTAR":
                         print(f"Listando todos os veiculos disponíveis".center(50, "-"))
                         db.listar_veiculos_disponiveis()
-                        input("Pressione qualquer tecla para continuar...")
-                        continue
-                    
+                        placa = input("Placa: ").upper()
+                        
                     veiculo_existe = db.verifica_existencia_veiculo('placa', placa)
                     veiculo_disponivel = db.verifica_disponibilidade_veiculo(placa)
                     
@@ -79,34 +78,19 @@ if __name__ == "__main__":
                         opcao = input("Digite a opção desejada: ")
                         if opcao in menu.menu_modificacoes_veiculos:
                             if opcao == "1":
-                                veiculo.exibe_cores_disponiveis() 
-                                cor_escolhida = int(input(f"Escolha a opção de cor disponível para o veículo {veiculo.tipo_veiculo} - placa {veiculo.placa}: "))
-                                
-                                if cor_escolhida in veiculo.cores_disponiveis:
-                                    veiculo.cor = veiculo.cores_disponiveis[cor_escolhida]
-                                veiculo.atualizar_veiculo(db)
+                                veiculo.alterar_veiculo(db, 'cor')
                                 break
-                                
                             elif opcao == "2":
-                                while True:
-                                    novo_valor = input(f"Digite o novo valor para o veículo {veiculo.tipo_veiculo} - placa {veiculo.placa}: ")
-                                    try:
-                                        novo_valor = float(novo_valor)
-                                        veiculo.valor = novo_valor
-                                        veiculo.atualizar_veiculo(db)
-                                        break
-                                    except ValueError:
-                                        print("Valor inválido")
-                                        continue
+                                veiculo.alterar_veiculo(db, 'valor')
                                 break
                             elif opcao == "3":
                                 system("cls")
                                 break
-                            
                         else:
                             print("Opção inválida")
                     else:    
-                        print("Veículo não encontrado")
+                        input("Digite qualquer tecla para continuar...")
+                        system("cls")
 
             elif opcao == "4":
                 print("Digite a placa do veículo que deseja vender:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
@@ -120,7 +104,7 @@ if __name__ == "__main__":
                     print(f"Listando todos os veiculos disponíveis".center(50, "-"))
                     db.listar_veiculos_disponiveis()
                     input("Pressione qualquer tecla para continuar...")
-                    continue
+                    placa = input("Placa: ").upper()
                     
                 veiculo_existe = db.verifica_existencia_veiculo('placa', placa)
                 veiculo_disponivel = db.verifica_disponibilidade_veiculo(placa)
@@ -129,7 +113,8 @@ if __name__ == "__main__":
                         veiculo = db.get_veiculo(placa_veiculo=placa)
                         veiculo.vender_veiculo(db)
                 else:
-                    print("Veículo não encontrado ou não disponível para venda")
+                    input("Pressione qualquer tecla para continuar...")
+                    system("cls")
                     
             elif opcao == "5":
                 break

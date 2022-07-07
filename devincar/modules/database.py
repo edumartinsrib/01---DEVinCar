@@ -82,7 +82,17 @@ class Database:
         except Exception as e:
             print(e)
             return False
-            
+    
+    def vender_veiculo(self, veiculo):
+        for veiculo_salvo in self.dados_local:
+            if veiculo_salvo.placa == veiculo.placa:
+                veiculo_salvo = veiculo
+                self.dados_externos.update({'cpf_comprador': veiculo.cpf_comprador}, Query()['placa'] == veiculo.placa)
+                self.historico_vendas.adicionar_venda(veiculo)
+                print("Veículo vendido com sucesso")
+                input("Digite qualquer tecla para continuar...")
+                system('cls')
+  
     def listar_todos_veiculos(self):
         my_table = PrettyTable()
         
@@ -96,7 +106,7 @@ class Database:
         my_table.field_names = self.field_names
         for veiculo in self.dados_local:
             if veiculo.cpf_comprador == 0:
-                my_table.add_row()
+                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor])
         print(my_table)
         
     def listar_veiculos_por_tipo(self, tipo_veiculo):
@@ -126,7 +136,5 @@ class Database:
                 return veiculo
         return None
 
-    def vender_veiculo(self, key, valor_filtro, valor):
-        self.dados_externos.update({'cpf_comprador': valor}, Query()[key] == valor_filtro)
-        print("Veículo vendido com sucesso")
+    
         

@@ -32,6 +32,7 @@ class Veiculos:
         self.cor: str = None
         self.data_atual: str = datetime.now().strftime("%d/%m/%Y")
         self.potencia: int = None
+        self.data_venda: str = None
 
     def carregamento_inicial(self, tipo_veiculo, numero_chassi, data_fabricacao, nome, 
                              placa, valor, cpf_comprador, cor, data_atual, potencia):
@@ -59,11 +60,19 @@ class Veiculos:
         except ValueError:
             print("Valor inválido")
     
-    def atualizar_veiculo(self, db):
+    def alterar_veiculo(self, db, campo_alteracao):
+        if campo_alteracao == 'cor':
+            self.exibe_cores_disponiveis()
+            self.cor = Validacoes().valida_cores_disponiveis(self.cores_disponiveis)
+        elif campo_alteracao == 'valor':
+            self.valor = Validacoes().valida_float("Digite o valor do veiculo: ")
+        
         db.atualizar_veiculo(self)
-
-    def vender_veiculo(self):
+    
+    def vender_veiculo(self, db):
         self.cpf_comprador = Validacoes().valida_cpf()
+        self.data_venda = datetime.now().strftime("%d/%m/%Y")
+        db.vender_veiculo(self)
     
     def salvar_veiculo(self, db):
         db.salvar_veiculo(self)
