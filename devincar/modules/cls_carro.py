@@ -12,12 +12,11 @@ class Carro(Veiculos):
         self.tipo_veiculo = self.__class__.__name__
         self.combustivel: str = None
         self.qtd_portas: int = None
-        self.potencia: int = None
+
 
     def cadastrar_veiculo(self):
         super().cadastrar_veiculo()
         self.escolher_combustivel()
-        self.potencia = int(input("Digite a potencia (CV): "))
         self.qtd_portas = int(input("Digite a quantidade de portas (litros): "))
         super().salvar_veiculo()
         print("Veiculo cadastrado com sucesso!")

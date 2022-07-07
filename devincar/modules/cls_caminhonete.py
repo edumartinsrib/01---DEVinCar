@@ -16,14 +16,12 @@ class Caminhonete(Veiculos):
     def __init__(self):
         super().__init__()
         self.tipo_veiculo = self.__class__.__name__
-        self.potencia: int = None
         self.qtd_portas: int = None
         self.combustivel: str = None
         self.capacidade_carregamento: float = None
 
     def cadastrar_veiculo(self):
         super().cadastrar_veiculo()
-        self.potencia = int(input("Digite a potencia do veiculo: "))
         self.qtd_portas = int(input("Digite a quantidade de portas do veiculo: "))
         self.escolher_combustivel()
         self.capacidade_carregamento = float(input("Digite a capacidade de carregamento do veiculo: "))

@@ -2,27 +2,61 @@ from os import system
 
 from modules import *
 
-""" def carrega_classes_inicial():
-        dados = db.all()
+def carrega_classes_inicial():
+        dados = db.get_db()
         veiculos = []
         
         for dado in dados:
-            if dado['tipo'] == 'carro':
-                veiculos.append(Carro.carregamento_inicial(dado['numero_chassi'], dado['data_fabricacao'], dado['nome'], 
-                                                                         dado['placa'], dado['valor'], dado['cpf_comprador'], dado['cor'], 
-                                                                         dado['data_atual'], dado['potencia'], dado['qtd_rodas'], dado['combustivel']))
-            elif dado['tipo'] == 'moto':
-                veiculos.append(Moto.carregamento_inicial(dado['numero_chassi'], dado['data_fabricacao'], dado['nome'], 
-                                                                         dado['placa'], dado['valor'], dado['cpf_comprador'], dado['cor'], 
-                                                                         dado['data_atual'], dado['potencia'], dado['qtd_rodas']))
-            elif dado['tipo'] == 'caminhonete':
-                veiculos.append(Caminhonete.carregamento_inicial(dado['numero_chassi'], dado['data_fabricacao'], dado['nome'], 
-                                                                         dado['placa'], dado['valor'], dado['cpf_comprador'], dado['cor'], 
-                                                                         dado['data_atual'], dado['potencia'], dado['qtd_portas'], dado['combustivel'], 
-                                                                         dado['capacidade_carregamento']))
-        
-carrega_classes_inicial()     """    
+            if dado['tipo_veiculo'] == 'Carro':
+                novo_carro = Carro()
+                Carro().carregamento_inicial(numero_chassi = dado['numero_chassi'],
+                                                           data_fabricacao=dado['data_fabricacao'],
+                                                           nome=dado['nome'],
+                                                           placa=dado['placa'],
+                                                           valor=dado['valor'],
+                                                           cpf_comprador=dado['cpf_comprador'],
+                                                           cor=dado['cor'],
+                                                           data_atual=dado['data_atual'],
+                                                           potencia=dado['potencia'],
+                                                           qtd_portas=dado['qtd_portas'],
+                                                           combustivel=dado['combustivel'])
+                veiculos.append(novo_carro)
+            elif dado['tipo_veiculo'] == 'Moto':
+                novo_moto = Moto()
+                Moto().carregamento_inicial(numero_chassi = dado['numero_chassi'],
+                                                           data_fabricacao=dado['data_fabricacao'],
+                                                           nome=dado['nome'],
+                                                           placa=dado['placa'],
+                                                           valor=dado['valor'],
+                                                           cpf_comprador=dado['cpf_comprador'],
+                                                           cor=dado['cor'],
+                                                           data_atual=dado['data_atual'],
+                                                           potencia=dado['potencia'],
+                                                           qtd_rodas=dado['qtd_rodas'])
+                veiculos.append(novo_moto)
+            elif dado['tipo_veiculo'] == 'Caminhonete':
+                novo_caminhonete = Caminhonete()
+                Caminhonete().carregamento_inicial(numero_chassi = dado['numero_chassi'],
+                                                           data_fabricacao=dado['data_fabricacao'],
+                                                           nome=dado['nome'],
+                                                           placa=dado['placa'],
+                                                           valor=dado['valor'],
+                                                           cpf_comprador=dado['cpf_comprador'],
+                                                           cor=dado['cor'],
+                                                           data_atual=dado['data_atual'],
+                                                           potencia=dado['potencia'],
+                                                           qtd_portas=dado['qtd_portas'],
+                                                           combustivel=dado['combustivel'],
+                                                           capacidade_carregamento=dado['capacidade_carregamento'])
+                veiculos.append(novo_caminhonete)
+            
+        for veiculo in veiculos:
+            print(veiculo)
+            
 
+
+carrega_classes_inicial()        
+""" 
 if __name__ == "__main__":
     system("cls")
     menu = Menu()
@@ -125,3 +159,4 @@ if __name__ == "__main__":
         else:
             print("Opção inválida")
             continue
+ """

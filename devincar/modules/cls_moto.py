@@ -7,12 +7,10 @@ class Moto(Veiculos):
         def __init__(self):
              super().__init__()
              self.tipo_veiculo = self.__class__.__name__
-             self.potencia: int = None
              self.qtd_rodas: int = None
             
         def cadastrar_veiculo(self):
                super().cadastrar_veiculo()
-               self.potencia = int(input('Digite a potencia: '))
                self.qtd_rodas = int(input('Digite a quantidade de rodas: '))
                super().salvar_veiculo()
                print('Veiculo cadastrado com sucesso!')

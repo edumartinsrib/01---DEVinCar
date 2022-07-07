@@ -7,8 +7,11 @@ db = TinyDB(caminho_banco)
 class Database:
     def __init__(self):
         self.dados_local = []
-        
-
+    
+    @staticmethod
+    def get_db():
+        return db.all()
+    
     @staticmethod
     def salvar_veiculo(veiculo):
         db.insert(veiculo.__dict__)

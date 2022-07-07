@@ -32,6 +32,7 @@ class Veiculos:
         self.cpf_comprador: str = 0
         self.cor: str = None
         self.data_atual: str = datetime.now().strftime("%d/%m/%Y")
+        self.potencia: int = None
 
     def carregamento_inicial(self, tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual):
         self.tipo_veiculo = tipo_veiculo
@@ -49,6 +50,7 @@ class Veiculos:
         self.data_fabricacao = input("Digite a data de fabricação do veiculo: ")
         self.placa = input("Digite a placa do veiculo: ")
         self.valor = float(input("Digite o valor do veiculo: "))
+        self.potencia = int(input('Digite a potencia: '))
         while True:
             self.exibe_cores_disponiveis()
             cor_escolhida = int(input("Escolha a opção de cor disponível para o veiculo:  "))
