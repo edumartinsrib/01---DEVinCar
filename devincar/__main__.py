@@ -31,26 +31,29 @@ if __name__ == "__main__":
                     else:
                         print("Opção inválida")
             elif opcao == "2":
-                print('Escolha o tipo de veículo para listagem:')
-                menu.get_menu(menu.menu_relatorio_veiculos)
-                sub_opcao = input("Digite a opção escolhida: ")
-                if sub_opcao in menu.menu_relatorio_veiculos:
-                    if sub_opcao == "1":
-                        db.listar_todos_veiculos()
-                    elif sub_opcao == "2":
-                        Carro().listar_veiculos(db)
-                    elif sub_opcao == "3":
-                        Moto().listar_veiculos(db)
-                    elif sub_opcao == "4":
-                        Caminhonete().listar_veiculos(db)
-                    elif sub_opcao == "5":
+                while True:
+                    print('Escolha o tipo de veículo para listagem:')
+                    menu.get_menu(menu.menu_relatorio_veiculos)
+                    sub_opcao = input("Digite a opção escolhida: ")
+                    if sub_opcao in menu.menu_relatorio_veiculos:
                         system("cls")
-                        break
+                        if sub_opcao == "1":
+                            db.listar_todos_veiculos()
+                        elif sub_opcao == "2":
+                            Carro().listar_veiculos(db)
+                        elif sub_opcao == "3":
+                            Moto().listar_veiculos(db)
+                        elif sub_opcao == "4":
+                            Caminhonete().listar_veiculos(db)
+                        elif sub_opcao == "5":
+                            system("cls")
+                            break
+                        input("Pressione qualquer tecla para voltar...")
+                        system("cls")
+                    else:
+                         input('Opção inválida')
+                         system("cls")
                     
-                print(f"Listando todos os veiculos cadastrados".center(50, "-"))
-                
-                input("Pressione qualquer tecla para voltar...")
-                system("cls")
             elif opcao == "3":
                 while True:
                     print("Digite a placa do veículo que deseja alterar:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
@@ -135,6 +138,7 @@ if __name__ == "__main__":
             elif opcao == "7":
                 break
         else:
-            print("Opção inválida")
+            input("Opção inválida")
+            system("cls")
             continue
  
