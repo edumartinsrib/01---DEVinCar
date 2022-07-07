@@ -4,8 +4,10 @@
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
+__pycache__
 *.py[cod]
 *$py.class
+
 
 # C extensions
 *.so
@@ -126,11 +128,13 @@ celerybeat.pid
 # Environments
 .env
 .venv
+venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+venv\
 
 # Spyder project settings
 .spyderproject
@@ -164,3 +168,8 @@ cython_debug/
 #.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+app/__pycache__/app.cpython-310.pyc
+app/entity/veiculos/__pycache__/cls_caminhonete.cpython-310.pyc
+app/entity/menu/__pycache__/menu_principal.cpython-310.pyc
+app/entity/veiculos/__pycache__/cls_caminhonete.cpython-310.pyc
+app/entity/veiculos/__pycache__/cls_carro.cpython-310.pyc
