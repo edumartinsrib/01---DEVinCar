@@ -17,6 +17,5 @@ class Moto(Veiculos):
         
         def carregamento_inicial(self, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual, potencia, qtd_rodas):
           tipo_veiculo = self.__class__.__name__
-          super().carregamento_inicial(tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual)
-          self.potencia = potencia
-          self.qtd_rodas = qtd_rodas
+          super().carregamento_inicial(tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual, potencia)
+          self.qtd_rodas = int(qtd_rodas)

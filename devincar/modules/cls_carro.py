@@ -33,7 +33,6 @@ class Carro(Veiculos):
             
     def carregamento_inicial(self, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual, potencia, qtd_portas, combustivel):
           tipo_veiculo = self.__class__.__name__
-          super().carregamento_inicial(tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual)
-          self.potencia = potencia
-          self.qtd_portas = qtd_portas
-          self.combustivel = combustivel
+          super().carregamento_inicial(tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual, potencia)
+          self.qtd_portas = int(qtd_portas)
+          self.combustivel = str(combustivel)

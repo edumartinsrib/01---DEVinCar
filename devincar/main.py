@@ -7,9 +7,10 @@ def carrega_classes_inicial():
         veiculos = []
         
         for dado in dados:
+            
             if dado['tipo_veiculo'] == 'Carro':
                 novo_carro = Carro()
-                Carro().carregamento_inicial(numero_chassi = dado['numero_chassi'],
+                novo_carro.carregamento_inicial(numero_chassi=dado['numero_chassi'],
                                                            data_fabricacao=dado['data_fabricacao'],
                                                            nome=dado['nome'],
                                                            placa=dado['placa'],
@@ -23,7 +24,7 @@ def carrega_classes_inicial():
                 veiculos.append(novo_carro)
             elif dado['tipo_veiculo'] == 'Moto':
                 novo_moto = Moto()
-                Moto().carregamento_inicial(numero_chassi = dado['numero_chassi'],
+                novo_moto.carregamento_inicial(numero_chassi = dado['numero_chassi'],
                                                            data_fabricacao=dado['data_fabricacao'],
                                                            nome=dado['nome'],
                                                            placa=dado['placa'],
@@ -36,7 +37,7 @@ def carrega_classes_inicial():
                 veiculos.append(novo_moto)
             elif dado['tipo_veiculo'] == 'Caminhonete':
                 novo_caminhonete = Caminhonete()
-                Caminhonete().carregamento_inicial(numero_chassi = dado['numero_chassi'],
+                novo_caminhonete.carregamento_inicial(numero_chassi = dado['numero_chassi'],
                                                            data_fabricacao=dado['data_fabricacao'],
                                                            nome=dado['nome'],
                                                            placa=dado['placa'],
@@ -50,11 +51,6 @@ def carrega_classes_inicial():
                                                            capacidade_carregamento=dado['capacidade_carregamento'])
                 veiculos.append(novo_caminhonete)
             
-        for veiculo in veiculos:
-            print(veiculo)
-            
-
-
 carrega_classes_inicial()        
 """ 
 if __name__ == "__main__":

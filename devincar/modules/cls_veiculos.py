@@ -34,16 +34,18 @@ class Veiculos:
         self.data_atual: str = datetime.now().strftime("%d/%m/%Y")
         self.potencia: int = None
 
-    def carregamento_inicial(self, tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual):
+    def carregamento_inicial(self, tipo_veiculo, numero_chassi, data_fabricacao, nome, 
+                             placa, valor, cpf_comprador, cor, data_atual, potencia):
         self.tipo_veiculo = tipo_veiculo
-        self.numero_chassi = numero_chassi
-        self.data_fabricacao = data_fabricacao
-        self.nome = nome
-        self.placa = placa
-        self.valor = valor
+        self.numero_chassi = str(numero_chassi)
+        self.data_fabricacao = str(data_fabricacao)
+        self.nome = str(nome)
+        self.placa = str(placa)
+        self.valor = float(valor)
         self.cpf_comprador = cpf_comprador
-        self.cor = cor
-        self.data_atual = data_atual 
+        self.cor = str(cor)
+        self.data_atual = str(data_atual) 
+        self.potencia = int(potencia)
         
     def cadastrar_veiculo(self):
         self.nome = input("Digite o nome (modelo) do veiculo: ")
@@ -105,6 +107,9 @@ class Veiculos:
         
         return chassi
     
+    def __str__(self):
+        return str(self.__dict__)
+        
     
 
        
