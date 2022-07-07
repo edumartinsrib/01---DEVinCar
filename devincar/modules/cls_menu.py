@@ -70,12 +70,6 @@ _____________________________________________________________________
         "2": "Alterar o valor do veículo",
         "3": "Voltar",
     }
-    menu_edicao_veiculo = {
-        "1": "numero_chassi",
-        "2": "placa",
-        "3": "voltar",
-    }
-
     @staticmethod
     def get_menu(menu):
         for key, value in menu.items():

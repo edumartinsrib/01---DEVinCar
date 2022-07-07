@@ -13,12 +13,11 @@ class Carro(Veiculos):
         self.combustivel: str = None
         self.qtd_portas: int = None
 
-
-    def cadastrar_veiculo(self):
+    def cadastrar_veiculo(self, db):
         super().cadastrar_veiculo()
         self.escolher_combustivel()
         self.qtd_portas = int(input("Digite a quantidade de portas (litros): "))
-        super().salvar_veiculo()
+        super().salvar_veiculo(db)
         print("Veiculo cadastrado com sucesso!")
 
     def escolher_combustivel(self):

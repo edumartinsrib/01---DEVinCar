@@ -3,7 +3,6 @@ from uuid import uuid4
 from random import randint
 from datetime import datetime
 from .cls_validacoes import Validacoes
-from .database import Database as db
 
 class Veiculos:
     cores_disponiveis = {
@@ -74,11 +73,11 @@ class Veiculos:
         for cor in self.cores_disponiveis:
             print(f"{cor} - {self.cores_disponiveis[cor]}")
 
-    def listar_todos_veiculos(self):
+    def listar_todos_veiculos(self, db):
         print(f"Listando todos os veiculos cadastrados".center(50, "-"))
         db.listar_todos_veiculos_menu()
 
-    def salvar_veiculo(self):
+    def salvar_veiculo(self, db):
         db.salvar_veiculo(self)
         
     def gerador_chassi(self):
@@ -99,16 +98,14 @@ class Veiculos:
         regiao = randint(8, 9) #América do Sul
         pais_origem = 'B' #Brasil
         fabricante = 'D' #devinCar
-        modelo = str(uuid4().fields[0])[:4].upper #gera um modelo de veiculo aleatório
+        modelo = str(uuid4().fields[0])[:4].upper() #gera um modelo de veiculo aleatório
         ano_fabricacao = ano_fabricacao_chassi() 
         local_producao = 'D' #fabrica devincar
         sequencial = str(uuid4().fields[-1])[:6]
-        chassi = f"{regiao}{pais_origem}{fabricante}{modelo}{ano_fabricacao}{local_producao}{sequencial}"
+        chassi = str(f"{regiao}{pais_origem}{fabricante}{modelo}{ano_fabricacao}{local_producao}{sequencial}")
         
         return chassi
-    
-    def __str__(self):
-        return str(self.__dict__)
+
         
     
 

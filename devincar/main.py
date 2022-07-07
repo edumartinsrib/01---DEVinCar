@@ -1,61 +1,14 @@
 from os import system
+from re import sub
 
 from modules import *
 
-def carrega_classes_inicial():
-        dados = db.get_db()
-        veiculos = []
-        
-        for dado in dados:
-            
-            if dado['tipo_veiculo'] == 'Carro':
-                novo_carro = Carro()
-                novo_carro.carregamento_inicial(numero_chassi=dado['numero_chassi'],
-                                                           data_fabricacao=dado['data_fabricacao'],
-                                                           nome=dado['nome'],
-                                                           placa=dado['placa'],
-                                                           valor=dado['valor'],
-                                                           cpf_comprador=dado['cpf_comprador'],
-                                                           cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
-                                                           potencia=dado['potencia'],
-                                                           qtd_portas=dado['qtd_portas'],
-                                                           combustivel=dado['combustivel'])
-                veiculos.append(novo_carro)
-            elif dado['tipo_veiculo'] == 'Moto':
-                novo_moto = Moto()
-                novo_moto.carregamento_inicial(numero_chassi = dado['numero_chassi'],
-                                                           data_fabricacao=dado['data_fabricacao'],
-                                                           nome=dado['nome'],
-                                                           placa=dado['placa'],
-                                                           valor=dado['valor'],
-                                                           cpf_comprador=dado['cpf_comprador'],
-                                                           cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
-                                                           potencia=dado['potencia'],
-                                                           qtd_rodas=dado['qtd_rodas'])
-                veiculos.append(novo_moto)
-            elif dado['tipo_veiculo'] == 'Caminhonete':
-                novo_caminhonete = Caminhonete()
-                novo_caminhonete.carregamento_inicial(numero_chassi = dado['numero_chassi'],
-                                                           data_fabricacao=dado['data_fabricacao'],
-                                                           nome=dado['nome'],
-                                                           placa=dado['placa'],
-                                                           valor=dado['valor'],
-                                                           cpf_comprador=dado['cpf_comprador'],
-                                                           cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
-                                                           potencia=dado['potencia'],
-                                                           qtd_portas=dado['qtd_portas'],
-                                                           combustivel=dado['combustivel'],
-                                                           capacidade_carregamento=dado['capacidade_carregamento'])
-                veiculos.append(novo_caminhonete)
-            
-carrega_classes_inicial()        
-""" 
+db = Database()
+menu = Menu()
+db.carrega_classes_inicial()
+
 if __name__ == "__main__":
     system("cls")
-    menu = Menu()
     print("Bem vindo ao sistema de gerenciamento de veículos da concessionária.")
     while True:
         print(menu.mensagem_inicial)
@@ -69,20 +22,33 @@ if __name__ == "__main__":
                     sub_opcao = input("Escolha o tipo de veículo para cadastro: ")
                     if sub_opcao in menu.escolha_veiculo:
                         if sub_opcao == "1":
-                            Carro().cadastrar_veiculo()
+                            Carro().cadastrar_veiculo(db)
                         elif sub_opcao == "2":
-                            Moto().cadastrar_veiculo()
+                            Moto().cadastrar_veiculo(db)
                         elif sub_opcao == "3":
-                            Caminhonete().cadastrar_veiculo()
+                            Caminhonete().cadastrar_veiculo(db)
                         elif sub_opcao == "4":
                             system("cls")
                             break
                     else:
                         print("Opção inválida")
             elif opcao == "2":
-                Veiculo().listar_todos_veiculos()
+                Veiculo().listar_todos_veiculos(db)
+                print('\nGostaria de alterar algum veículo? (S/N)')
+                while True:
+                    menu.get_menu(menu.menu_modificacoes_veiculos)
+                    sub_opcao = input("Escolha a opção: ")
+                    if sub_opcao in menu.menu_modificacoes_veiculos:
+                        if sub_opcao == "1":
+                            Veiculo().alterar_veiculo(db)
+                        elif sub_opcao == "2":
+                            Veiculo().vender_veiculo(db)
+                        elif sub_opcao == "3":
+                            system("cls")
+                            break
             elif opcao == "3":
-                 while True:
+                ##Veiculo().alterar_veiculo() 
+                """ while True:
                     print("Escolha o veículo para edição a partir do: ")
                     Menu().get_menu(menu.menu_edicao_veiculo)
                     opcao = input("Digite a opção desejada: ")
@@ -110,7 +76,7 @@ if __name__ == "__main__":
                                 except ValueError:
                                     print("Valor inválido")
                                 
-                                self.exibe_cores_disponiveis() 
+                                exibe_cores_disponiveis() 
                                 cor_escolhida = int(input("Escolha a opção de cor disponível para o veiculo: "))
                             
                                 if cor_escolhida in self.cores_disponiveis:
@@ -121,11 +87,11 @@ if __name__ == "__main__":
                         else:    
                             print("Veículo não encontrado")
                     else:
-                        print("Opção inválida")
-                    Veiculo().alterar_veiculo()
+                        print("Opção inválida") """
+            
                     
             elif opcao == "4":
-                while True:
+                """ while True:
                     print("Escolha o veículo para venda a partir do: ")
                     Menu().get_menu(menu.menu_edicao_veiculo)
                     opcao = input("Digite a opção desejada: ")
@@ -144,7 +110,7 @@ if __name__ == "__main__":
                             print("Veículo não encontrado")
 
                     else:
-                        print("Opção inválida")
+                        print("Opção inválida") """
                     
             elif opcao == "5":
                 break
@@ -155,4 +121,4 @@ if __name__ == "__main__":
         else:
             print("Opção inválida")
             continue
- """
+ 

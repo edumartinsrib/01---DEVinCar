@@ -1,4 +1,4 @@
-from .database import Database as db
+from .database import Database
 from .cls_menu import Menu_Principal as Menu
 from .cls_veiculos import Veiculos as Veiculo
 from .cls_caminhonete import Caminhonete as Caminhonete
@@ -8,7 +8,7 @@ from .cls_carro import Carro as Carro
 
 
 __all__ = [
-    'db', 
+    'Database', 
     'Menu',
     'Veiculo',
     'Caminhonete',
