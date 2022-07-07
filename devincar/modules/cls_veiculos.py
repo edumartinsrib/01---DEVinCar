@@ -2,10 +2,8 @@ from os import system
 from uuid import uuid4
 from random import randint
 from datetime import datetime
-from entity.validacoes import Validacoes
-from data.database import Database as db
-from entity.menu.menu_principal import Menu_Principal as menu
-
+from .cls_validacoes import Validacoes
+from .database import Database as db
 
 class Veiculos:
     cores_disponiveis = {
@@ -62,70 +60,11 @@ class Veiculos:
         self.numero_chassi = self.gerador_chassi()
         
     def alterar_veiculo(self):
-        while True:
-            print("Escolha o veículo para edição a partir do: ")
-            menu().get_menu(menu.menu_edicao_veiculo)
-            opcao = input("Digite a opção desejada: ")
-            if opcao in menu.menu_edicao_veiculo:
-    
-                if opcao == "3":
-                    system("cls")
-                    break
-                
-                sub_opcao = input(
-                    f"Digite o {menu.menu_edicao_veiculo[opcao]} para pesquisa: "
-                )
-                veiculo = db.get_veiculo(
-                    menu.menu_edicao_veiculo[opcao], sub_opcao
-                )
-                if veiculo:
-                    while True:
-                        novo_valor = input(
-                            f"Digite o novo valor para o {veiculo['tipo_veiculo']}: "
-                        )
-                        try:
-                            novo_valor = float(novo_valor)
-                            veiculo.valor = novo_valor
-                            break
-                        except ValueError:
-                            print("Valor inválido")
-                        
-                        self.exibe_cores_disponiveis() 
-                        cor_escolhida = int(input("Escolha a opção de cor disponível para o veiculo: "))
-                    
-                        if cor_escolhida in self.cores_disponiveis:
-                            veiculo.cor = self.cores_disponiveis[cor_escolhida]
-                            break
-                        
-                    system("cls")
-                else:    
-                    print("Veículo não encontrado")
-
-            else:
-                print("Opção inválida")
+       pass
 
     ##vender veículo e informar CPF do comprador
     def vender_veiculo(self):
-        while True:
-            print("Escolha o veículo para venda a partir do: ")
-            menu().get_menu(menu.menu_edicao_veiculo)
-            opcao = input("Digite a opção desejada: ")
-            if opcao in menu.menu_edicao_veiculo:
-                sub_opcao = input(
-                    f"Digite o {menu.menu_edicao_veiculo[opcao]} para pesquisa: "
-                )
-                if db.verifica_existencia_veiculo(
-                    menu.menu_edicao_veiculo[opcao], sub_opcao
-                ):
-                    cpf_comprador = Validacoes.valida_cpf()
-                    db.vender_veiculo(
-                        menu.menu_edicao_veiculo[opcao], sub_opcao, cpf_comprador
-                    )
-                else:
-                    print("Veículo não encontrado")
-
-            else:
-                print("Opção inválida")
+        pass
 
     def exibe_cores_disponiveis(self):
         for cor in self.cores_disponiveis:
@@ -163,3 +102,7 @@ class Veiculos:
         chassi = f"{regiao}{pais_origem}{fabricante}{modelo}{ano_fabricacao}{local_producao}{sequencial}"
         
         return chassi
+    
+    
+
+       

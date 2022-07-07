@@ -1,4 +1,4 @@
-from cls_veiculos import Veiculos
+from .cls_veiculos import Veiculos
 
 class Carro(Veiculos):
     opt_combustivel = {

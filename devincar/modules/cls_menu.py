@@ -1,3 +1,4 @@
+
 class Menu_Principal:
     mensagem_inicial = """
     
@@ -79,6 +80,4 @@ _____________________________________________________________________
     def get_menu(menu):
         for key, value in menu.items():
             print(f"{key} - {value}".ljust(100))
-
-
 

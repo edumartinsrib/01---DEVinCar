@@ -1,4 +1,4 @@
-from cls_veiculos import Veiculos
+from .cls_veiculos import Veiculos
 
 class Moto(Veiculos):
      
@@ -22,6 +22,3 @@ class Moto(Veiculos):
           super().carregamento_inicial(tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual)
           self.potencia = potencia
           self.qtd_rodas = qtd_rodas
-       
-               
-        

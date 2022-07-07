@@ -1,7 +1,8 @@
 from tinydb import TinyDB, Query
 from prettytable import PrettyTable
-
-db = TinyDB('app/data/db.json')
+from pathlib import Path
+caminho_banco = Path().cwd() / 'devincar/data/database.json'
+db = TinyDB(caminho_banco)
 
 class Database:
     def __init__(self):
