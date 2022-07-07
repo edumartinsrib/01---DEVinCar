@@ -65,6 +65,19 @@ class Validacoes():
                 print("Número inválido")
                 continue
     
+    @staticmethod
+    def valida_cores_disponiveis(array_cores):
+        while True:
+            try:
+                input_resultado = int(input("Escolha a opção de cor disponível para o veiculo:  "))
+                if input_resultado in array_cores:
+                    return array_cores[input_resultado]
+                else:
+                    print("Opção inválida")
+                    continue
+            except ValueError:
+                print("Opção inválida")
+                continue
     
     
     

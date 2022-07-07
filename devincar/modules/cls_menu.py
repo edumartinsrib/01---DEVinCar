@@ -42,9 +42,9 @@ _____________________________________________________________________
     }
     menu_relatorio_veiculos = {
         "1": "Listar todos os veículos",
-        "2": "Motos - Triciclos",
-        "3": "Carros",
-        "4": "Camionetes",
+        "2": "Carros",
+        "3": "Moto/Triciclos",
+        "4": "Caminhonetes",
         "5": "Voltar",
     }
     menu_relatorio_vendas = {

@@ -53,40 +53,28 @@ class Veiculos:
             self.placa = Validacoes().valida_placa().upper()
             self.valor = Validacoes().valida_float("Digite o valor do veiculo: ")
             self.potencia = Validacoes().valida_inteiro("Digite a potencia do veiculo: ")
-            while True:
-                self.exibe_cores_disponiveis()
-                cor_escolhida = int(input("Escolha a opção de cor disponível para o veiculo:  "))
-                if cor_escolhida in self.cores_disponiveis:
-                    self.cor = self.cores_disponiveis[cor_escolhida]
-                    break
-                else:
-                    print("Opção inválida")
-                    
+            self.exibe_cores_disponiveis()
+            self.cores_disponiveis = Validacoes().valida_cores_disponiveis(self.cores_disponiveis)     
             self.numero_chassi = self.gerador_chassi()
         except ValueError:
             print("Valor inválido")
-         
-    def alterar_veiculo(self):
-       pass
-
-    ##vender veículo e informar CPF do comprador
-    def vender_veiculo(self):
-        pass
-
-    def exibe_cores_disponiveis(self):
-        for cor in self.cores_disponiveis:
-            print(f"{cor} - {self.cores_disponiveis[cor]}")
-
-    def listar_todos_veiculos(self, db):
-        print(f"Listando todos os veiculos cadastrados".center(50, "-"))
-        db.listar_todos_veiculos_menu()
-
-    def salvar_veiculo(self, db):
-        db.salvar_veiculo(self)
     
     def atualizar_veiculo(self, db):
         db.atualizar_veiculo(self)
 
+    def vender_veiculo(self):
+        self.cpf_comprador = Validacoes().valida_cpf()
+    
+    def salvar_veiculo(self, db):
+        db.salvar_veiculo(self)
+        
+    def listar_veiculos(self, db):
+        db.listar_veiculos_por_tipo(self.__class__.__name__,)
+
+    def exibe_cores_disponiveis(self):
+        for cor in self.cores_disponiveis:
+            print(f"{cor} - {self.cores_disponiveis[cor]}")    
+  
     def gerador_chassi(self):
         def ano_fabricacao_chassi(ano_inicial = 1980):
             ##captura caracteres de ano de fabricacao a partir do ano do veículo - a partir de 1980 até 2030

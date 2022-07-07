@@ -5,17 +5,16 @@ from .cls_veiculos import *
 from .cls_caminhonete import *
 from .cls_carro import *
 from .cls_moto import *
-
-
-
+from .historico_vendas import *
 
 class Database:
     caminho_banco = Path().cwd() / 'devincar/data'
+    field_names = ['numero_chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor']
     
     def __init__(self):
         self.dados_externos = TinyDB(self.caminho_banco / 'database.json')
-        self._historico_vendas = TinyDB(self.caminho_banco / 'historico_vendas.json')
         self.dados_local = []
+        self.historico_vendas = HistoricoVendas()
     
     def carrega_classes_inicial(self):
         for dado in self.dados_externos.all():
@@ -84,12 +83,28 @@ class Database:
             print(e)
             return False
             
-    def listar_todos_veiculos_menu(self):
+    def listar_todos_veiculos(self):
         my_table = PrettyTable()
         
-        my_table.field_names = ['numero_chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor']
+        my_table.field_names = self.field_names
         for veiculo in self.dados_local:
             my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor])
+        print(my_table)
+    
+    def listar_veiculos_disponiveis(self):
+        my_table = PrettyTable()
+        my_table.field_names = self.field_names
+        for veiculo in self.dados_local:
+            if veiculo.cpf_comprador == 0:
+                my_table.add_row()
+        print(my_table)
+        
+    def listar_veiculos_por_tipo(self, tipo_veiculo):
+        my_table = PrettyTable()
+        my_table.field_names = self.field_names
+        for veiculo in self.dados_local:
+            if veiculo.tipo_veiculo == tipo_veiculo:
+                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor])
         print(my_table)
         
     def verifica_existencia_veiculo(self, key, valor):

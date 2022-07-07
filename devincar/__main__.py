@@ -31,7 +31,24 @@ if __name__ == "__main__":
                     else:
                         print("Opção inválida")
             elif opcao == "2":
-                Veiculo().listar_todos_veiculos(db)
+                print('Escolha o tipo de veículo para listagem:')
+                menu.get_menu(menu.menu_relatorio_veiculos)
+                sub_opcao = input("Digite a opção escolhida: ")
+                if sub_opcao in menu.menu_relatorio_veiculos:
+                    if sub_opcao == "1":
+                        db.listar_todos_veiculos()
+                    elif sub_opcao == "2":
+                        Carro().listar_veiculos(db)
+                    elif sub_opcao == "3":
+                        Moto().listar_veiculos(db)
+                    elif sub_opcao == "4":
+                        Caminhonete().listar_veiculos(db)
+                    elif sub_opcao == "5":
+                        system("cls")
+                        break
+                    
+                print(f"Listando todos os veiculos cadastrados".center(50, "-"))
+                
                 input("Pressione qualquer tecla para voltar...")
                 system("cls")
             elif opcao == "3":
@@ -44,7 +61,8 @@ if __name__ == "__main__":
                         break
                     
                     if placa == "LISTAR":
-                        Veiculo().listar_todos_veiculos(db)
+                        print(f"Listando todos os veiculos disponíveis".center(50, "-"))
+                        db.listar_veiculos_disponiveis()
                         input("Pressione qualquer tecla para continuar...")
                         continue
                     
@@ -88,20 +106,28 @@ if __name__ == "__main__":
                         print("Veículo não encontrado")
 
             elif opcao == "4":
-                while True:
-                    print("Digite a placa do veículo que deseja alterar ou tecle ENTER para voltar: ")
-                    placa = input("Placa: ")
+                print("Digite a placa do veículo que deseja vender:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
+                placa = input("Placa: ").upper()
                     
-                    if placa == "":
-                        system("cls")
-                        break
+                if placa == "":
+                   system("cls")
+                   break
                     
-                    if db.verifica_existencia_veiculo('placa', placa) == True:
+                if placa == "LISTAR":
+                    print(f"Listando todos os veiculos disponíveis".center(50, "-"))
+                    db.listar_veiculos_disponiveis()
+                    input("Pressione qualquer tecla para continuar...")
+                    continue
+                    
+                veiculo_existe = db.verifica_existencia_veiculo('placa', placa)
+                veiculo_disponivel = db.verifica_disponibilidade_veiculo(placa)
+                
+                if  veiculo_existe == True and veiculo_disponivel == True:
                         veiculo = db.get_veiculo(placa_veiculo=placa)
-                        print(f"Digite o CPF do comprador do veículo com placa {veiculo.placa}: ")
-                       
-                    else:    
-                        print("Veículo não encontrado")
+                        veiculo.vender_veiculo(db)
+                else:
+                    print("Veículo não encontrado ou não disponível para venda")
+                    
             elif opcao == "5":
                 break
             elif opcao == "6":
