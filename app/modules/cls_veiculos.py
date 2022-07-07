@@ -1,5 +1,8 @@
+from os import system
 from uuid import uuid4
+from random import randint
 from datetime import datetime
+from entity.validacoes import Validacoes
 from data.database import Database as db
 from entity.menu.menu_principal import Menu_Principal as menu
 
@@ -23,7 +26,7 @@ class Veiculos:
 
     def __init__(self):
         self.tipo_veiculo = None
-        self.numero_chassi: str = uuid4().fields[-1].to_bytes(8, "big").hex()
+        self.numero_chassi: str = None
         self.data_fabricacao: str = None
         self.nome: str = None
         self.placa: str = None
@@ -32,33 +35,43 @@ class Veiculos:
         self.cor: str = None
         self.data_atual: str = datetime.now().strftime("%d/%m/%Y")
 
-    def cadastrar_veiculo(self, tipo_veiculo):
-        print(f"Cadastrando {tipo_veiculo}")
+    def carregamento_inicial(self, tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual):
         self.tipo_veiculo = tipo_veiculo
+        self.numero_chassi = numero_chassi
+        self.data_fabricacao = data_fabricacao
+        self.nome = nome
+        self.placa = placa
+        self.valor = valor
+        self.cpf_comprador = cpf_comprador
+        self.cor = cor
+        self.data_atual = data_atual 
+        
+    def cadastrar_veiculo(self):
         self.nome = input("Digite o nome (modelo) do veiculo: ")
+        self.data_fabricacao = input("Digite a data de fabricação do veiculo: ")
         self.placa = input("Digite a placa do veiculo: ")
         self.valor = float(input("Digite o valor do veiculo: "))
         while True:
-            self.exibe_cores_disponiveis(tipo_veiculo)
-            if tipo_veiculo == "Caminhonete":
-                self.cor = "Roxa"
-                break
-
-            cor_escolhida = int(input("Digite a cor para o veiculo: "))
+            self.exibe_cores_disponiveis()
+            cor_escolhida = int(input("Escolha a opção de cor disponível para o veiculo:  "))
             if cor_escolhida in self.cores_disponiveis:
                 self.cor = self.cores_disponiveis[cor_escolhida]
                 break
             else:
                 print("Opção inválida")
-
-        self.data_fabricacao = input("Digite a data de fabricação do veiculo: ")
-
+        self.numero_chassi = self.gerador_chassi()
+        
     def alterar_veiculo(self):
         while True:
             print("Escolha o veículo para edição a partir do: ")
             menu().get_menu(menu.menu_edicao_veiculo)
             opcao = input("Digite a opção desejada: ")
             if opcao in menu.menu_edicao_veiculo:
+    
+                if opcao == "3":
+                    system("cls")
+                    break
+                
                 sub_opcao = input(
                     f"Digite o {menu.menu_edicao_veiculo[opcao]} para pesquisa: "
                 )
@@ -67,7 +80,6 @@ class Veiculos:
                 )
                 if veiculo:
                     while True:
-                        print(veiculo)
                         novo_valor = input(
                             f"Digite o novo valor para o {veiculo['tipo_veiculo']}: "
                         )
@@ -78,15 +90,16 @@ class Veiculos:
                         except ValueError:
                             print("Valor inválido")
                         
-                        if veiculo.tipo_veiculo != "Caminhonete":
-                            self.exibe_cores_disponiveis(veiculo.tipo_veiculo) 
-                            cor_escolhida = int(input("Digite a cor para o veiculo: "))
-                            if cor_escolhida in self.cores_disponiveis:
-                                veiculo.cor = self.cores_disponiveis[cor_escolhida]
-                                break
+                        self.exibe_cores_disponiveis() 
+                        cor_escolhida = int(input("Escolha a opção de cor disponível para o veiculo: "))
+                    
+                        if cor_escolhida in self.cores_disponiveis:
+                            veiculo.cor = self.cores_disponiveis[cor_escolhida]
+                            break
                         
-
-                print("Veículo não encontrado")
+                    system("cls")
+                else:    
+                    print("Veículo não encontrado")
 
             else:
                 print("Opção inválida")
@@ -104,7 +117,7 @@ class Veiculos:
                 if db.verifica_existencia_veiculo(
                     menu.menu_edicao_veiculo[opcao], sub_opcao
                 ):
-                    cpf_comprador = input("Digite o CPF do comprador: ")
+                    cpf_comprador = Validacoes.valida_cpf()
                     db.vender_veiculo(
                         menu.menu_edicao_veiculo[opcao], sub_opcao, cpf_comprador
                     )
@@ -114,12 +127,9 @@ class Veiculos:
             else:
                 print("Opção inválida")
 
-    def exibe_cores_disponiveis(self, tipo_veiculo):
-        if tipo_veiculo == "Caminhonete":
-            return "Este veiculo está disponível apenas na cor Roxa"
-        print([f"{key} - {value}" for key, value in self.cores_disponiveis.items()])
-        """ for cor in self.cores_disponiveis:
-            print(f"{cor} - {self.cores_disponiveis[cor]}") """
+    def exibe_cores_disponiveis(self):
+        for cor in self.cores_disponiveis:
+            print(f"{cor} - {self.cores_disponiveis[cor]}")
 
     def listar_todos_veiculos(self):
         print(f"Listando todos os veiculos cadastrados".center(50, "-"))
@@ -127,3 +137,29 @@ class Veiculos:
 
     def salvar_veiculo(self):
         db.salvar_veiculo(self)
+        
+    def gerador_chassi(self):
+        def ano_fabricacao_chassi(ano_inicial = 1980):
+            ##captura caracteres de ano de fabricacao a partir do ano do veículo - a partir de 1980 até 2030
+            caracteres_ano_fabricacao = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l',
+                              'm', 'n', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+                              '1', '2', '3', '4', '5', '6', '7', '8', '9']
+            ano_fabricao_veiculo = int(self.data_fabricacao[6:10])
+            
+            index = ano_fabricao_veiculo - ano_inicial
+            
+            if index > len(caracteres_ano_fabricacao):
+                index = index - len(caracteres_ano_fabricacao)
+                
+            return caracteres_ano_fabricacao[index]
+        
+        regiao = randint(8, 9) #América do Sul
+        pais_origem = 'B' #Brasil
+        fabricante = 'D' #devinCar
+        modelo = str(uuid4().fields[0])[:4].upper #gera um modelo de veiculo aleatório
+        ano_fabricacao = ano_fabricacao_chassi() 
+        local_producao = 'D' #fabrica devincar
+        sequencial = str(uuid4().fields[-1])[:6]
+        chassi = f"{regiao}{pais_origem}{fabricante}{modelo}{ano_fabricacao}{local_producao}{sequencial}"
+        
+        return chassi

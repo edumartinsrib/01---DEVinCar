@@ -1,7 +1,6 @@
 class Menu_Principal:
     mensagem_inicial = """
-Bem vindo ao sistema de gerenciamento de veículos da concessionária.
-
+    
 ██████╗ ███████╗██╗   ██╗██╗███╗   ██╗ ██████╗ █████╗ ██████╗ 
 ██╔══██╗██╔════╝██║   ██║██║████╗  ██║██╔════╝██╔══██╗██╔══██╗
 ██║  ██║█████╗  ██║   ██║██║██╔██╗ ██║██║     ███████║██████╔╝

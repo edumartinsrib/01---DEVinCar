@@ -1,24 +1,43 @@
-import os
-from re import sub
-from entity.menu.menu_principal import Menu_Principal as Menu
-from entity.veiculos.cls_veiculos import Veiculos
-from entity.veiculos.cls_motoTriciclo import Moto
-from entity.veiculos.cls_carro import Carro
-from entity.veiculos.cls_caminhonete import Caminhonete
+from pathlib import Path
+from sys import path
+from os import system
+from modules import *
+
+path.append(str(Path.cwd()))
+
+""" def carrega_classes_inicial():
+        dados = db.all()
+        veiculos = []
+        
+        for dado in dados:
+            if dado['tipo'] == 'carro':
+                veiculos.append(Carro.carregamento_inicial(dado['numero_chassi'], dado['data_fabricacao'], dado['nome'], 
+                                                                         dado['placa'], dado['valor'], dado['cpf_comprador'], dado['cor'], 
+                                                                         dado['data_atual'], dado['potencia'], dado['qtd_rodas'], dado['combustivel']))
+            elif dado['tipo'] == 'moto':
+                veiculos.append(Moto.carregamento_inicial(dado['numero_chassi'], dado['data_fabricacao'], dado['nome'], 
+                                                                         dado['placa'], dado['valor'], dado['cpf_comprador'], dado['cor'], 
+                                                                         dado['data_atual'], dado['potencia'], dado['qtd_rodas']))
+            elif dado['tipo'] == 'caminhonete':
+                veiculos.append(Caminhonete.carregamento_inicial(dado['numero_chassi'], dado['data_fabricacao'], dado['nome'], 
+                                                                         dado['placa'], dado['valor'], dado['cpf_comprador'], dado['cor'], 
+                                                                         dado['data_atual'], dado['potencia'], dado['qtd_portas'], dado['combustivel'], 
+                                                                         dado['capacidade_carregamento']))
+        
+carrega_classes_inicial()     """    
 
 if __name__ == "__main__":
-    os.system("cls")
+    system("cls")
     menu = Menu()
-    print(menu.mensagem_inicial)
+    print("Bem vindo ao sistema de gerenciamento de veículos da concessionária.")
     while True:
-        
+        print(menu.mensagem_inicial)
         menu.get_menu(menu.menu_principal)
         opcao = input("Escolha uma opção: ")
         if opcao in menu.menu_principal:
-            os.system("cls")
+            system("cls")
             if opcao == "1":
                 while True:
-                    # menu.get_escolha_veiculo()
                     menu.get_menu(menu.escolha_veiculo)
                     sub_opcao = input("Escolha o tipo de veículo para cadastro: ")
                     if sub_opcao in menu.escolha_veiculo:
@@ -29,7 +48,7 @@ if __name__ == "__main__":
                         elif sub_opcao == "3":
                             Caminhonete().cadastrar_veiculo()
                         elif sub_opcao == "4":
-                            os.system("cls")
+                            system("cls")
                             break
                     else:
                         print("Opção inválida")

@@ -1,10 +1,13 @@
 from tinydb import TinyDB, Query
 from prettytable import PrettyTable
 
-
 db = TinyDB('app/data/db.json')
 
 class Database:
+    def __init__(self):
+        self.dados_local = []
+        
+
     @staticmethod
     def salvar_veiculo(veiculo):
         db.insert(veiculo.__dict__)
@@ -38,3 +41,5 @@ class Database:
     def vender_veiculo(key, valor_filtro, valor):
         db.update({'cpf_comprador': valor}, Query()[key] == valor_filtro)
         print("Veículo vendido com sucesso")
+        
+
