@@ -187,11 +187,11 @@ if __name__ == "__main__":
                             input("Pressione qualquer tecla para voltar...")
                             system("cls")
                         elif sub_opcao == "5":
-                            db.historico_vendas.listar_vendas_por_tipo('Carro')
+                            db.historico_vendas.maior_valor_venda()
                             input("Pressione qualquer tecla para voltar...")
                             system("cls")
                         elif sub_opcao == "6":
-                            db.historico_vendas.listar_vendas_por_tipo('Carro')
+                            db.historico_vendas.menor_valor_venda()
                             input("Pressione qualquer tecla para voltar...")
                             system("cls")
                     else:        

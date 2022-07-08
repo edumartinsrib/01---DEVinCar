@@ -11,7 +11,7 @@ class Moto(Veiculos):
              self.qtd_rodas: int = None
             
         def cadastrar_veiculo(self, db):
-               super().cadastrar_veiculo()
+               super().cadastrar_veiculo(db)
                self.qtd_rodas = Validacoes.valida_inteiro("Digite a quantidade de rodas do veiculo: ")
                super().salvar_veiculo(db)
 

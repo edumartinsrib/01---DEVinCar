@@ -16,7 +16,7 @@ class Carro(Veiculos):
 
     def cadastrar_veiculo(self, db):
         try:
-            super().cadastrar_veiculo()
+            super().cadastrar_veiculo(db)
             self.escolher_combustivel()
             self.qtd_portas = Validacoes.valida_inteiro("Digite a quantidade de portas do veiculo: ")
             super().salvar_veiculo(db)

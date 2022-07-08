@@ -6,13 +6,13 @@ from .cls_validacoes import Validacoes
 
 class Veiculos:
     cores_disponiveis = {
-        1: "Azul",
-        2: "Amarelo",
-        3: "Vermelho",
-        4: "Verde",
-        5: "Preto",
-        6: "Branco",
-        7: "roxo",
+        '1': "Azul",
+        '2': "Amarelo",
+        '3': "Vermelho",
+        '4': "Verde",
+        '5': "Preto",
+        '6': "Branco",
+        '7': "roxo",
     }
 
     tipos_veiculos = {
@@ -47,11 +47,11 @@ class Veiculos:
         self.data_atual = str(data_atual) 
         self.potencia = int(potencia)
         
-    def cadastrar_veiculo(self):
+    def cadastrar_veiculo(self, db):
         try:
             self.nome = Validacoes().valida_string("Digite o nome (modelo) do veiculo: ")
             self.data_fabricacao = Validacoes().valida_data()
-            self.placa = Validacoes().valida_placa().upper()
+            self.placa = Validacoes().valida_placa(db)
             self.valor = Validacoes().valida_float("Digite o valor do veiculo: ")
             self.potencia = Validacoes().valida_inteiro("Digite a potencia do veiculo: ")
             self.exibe_cores_disponiveis()
@@ -109,7 +109,6 @@ class Veiculos:
         chassi = str(f"{regiao}{pais_origem}{fabricante}{modelo}{ano_fabricacao}{local_producao}{sequencial}")
         
         return chassi
-
         
     
 

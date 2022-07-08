@@ -1,4 +1,4 @@
-import re
+from re import match
 from datetime import datetime
 
 class Validacoes():
@@ -8,20 +8,24 @@ class Validacoes():
       while True:
         cpf = input("Digite o CPF: ")
     
-        if re.match("[0-9]{11}" , cpf):
+        if bool(match("^[0-9]{11}$" , cpf)):
             return cpf
         else:
             print("CPF inválido")
             continue
         
     @staticmethod
-    def valida_placa():
+    def valida_placa(db):
       while True:
         placa = input("Digite a placa - apenas números (padrão antigo e mercosul): ").upper()
         
-        if re.match("[A-Z]{3}[0-9]{4}" , placa):
+        if db.verifica_existencia_veiculo('placa', placa) == True:
+            print("\nPlaca já cadastrada!")
+            continue
+        
+        if bool(match("^[A-Z]{3}[0-9]{4}$" , placa)):
             return placa
-        elif re.match("[A-Z]{3}[0-9][0-9A-Z][0-9]{2}" , placa):
+        elif bool(match("^[A-Z]{3}[0-9][0-9A-Z][0-9]{2}$" , placa)):
             return placa
         else:
             print("Placa inválida")
@@ -50,6 +54,9 @@ class Validacoes():
         while True:
             try:
                 input_resultado = int(input(texto_input))
+                if input_resultado <= 0:
+                    print("O valor deve ser maior que zero")
+                    continue
                 return input_resultado
             except ValueError:
                 print("Número inválido")
@@ -60,6 +67,9 @@ class Validacoes():
         while True:
             try:
                 input_resultado = float(input(texto_input))
+                if input_resultado <= 0:
+                    print("O valor deve ser maior que zero")
+                    continue
                 return input_resultado
             except ValueError:
                 print("Número inválido")
@@ -69,7 +79,7 @@ class Validacoes():
     def valida_cores_disponiveis(array_cores):
         while True:
             try:
-                input_resultado = int(input("Escolha a opção de cor disponível para o veiculo:  "))
+                input_resultado = input("Escolha a opção de cor disponível para o veiculo:  ")
                 if input_resultado in array_cores:
                     return array_cores[input_resultado]
                 else:

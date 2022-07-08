@@ -9,7 +9,7 @@ class Caminhonete(Veiculos):
     }
     
     cores_disponiveis = {
-        1: "roxo",
+        '1': "roxo",
     }
     
     tipo_veiculo = 'Caminhonete'
@@ -22,7 +22,7 @@ class Caminhonete(Veiculos):
         self.capacidade_carregamento: float = None
 
     def cadastrar_veiculo(self, db):
-        super().cadastrar_veiculo()
+        super().cadastrar_veiculo(db)
         self.qtd_portas = Validacoes.valida_inteiro("Digite a quantidade de portas do veiculo: ")
         self.escolher_combustivel()
         self.capacidade_carregamento = Validacoes().valida_float("Digite a capacidade de carregamento do veiculo: ")

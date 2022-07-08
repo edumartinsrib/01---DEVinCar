@@ -128,7 +128,6 @@ class Database:
     def verifica_existencia_veiculo(self, key, valor):
         if self.dados_externos.contains(Query()[key] == valor) == True:
             return True
-        print("\nVeículo não encontrado!")
         return False
 
     def verifica_disponibilidade_veiculo(self, placa):
@@ -136,6 +135,12 @@ class Database:
             if veiculo.placa == placa and veiculo.cpf_comprador == 0:
                 return True
         print("\nVeículo não disponível!")
+        return False
+    
+    def verifica_existencia_veiculo_por_placa(self, placa):
+        for veiculo in self.dados_local:
+            if veiculo.placa == placa:
+                return True
         return False
     
     def get_veiculo(self, placa_veiculo):
