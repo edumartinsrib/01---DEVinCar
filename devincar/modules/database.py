@@ -9,7 +9,7 @@ from .historico_vendas import *
 
 class Database:
     caminho_banco = Path().cwd() / 'devincar/data'
-    field_names = ['numero_chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor']
+    field_names = ['numero_chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor', 'status']
     
     def __init__(self):
         self.dados_externos = TinyDB(self.caminho_banco / 'database.json')
@@ -89,16 +89,18 @@ class Database:
                 veiculo_salvo = veiculo
                 self.dados_externos.update({'cpf_comprador': veiculo.cpf_comprador}, Query()['placa'] == veiculo.placa)
                 self.historico_vendas.adicionar_venda(veiculo)
-                print("Veículo vendido com sucesso")
-                input("Digite qualquer tecla para continuar...")
-                system('cls')
+                
   
     def listar_todos_veiculos(self):
         my_table = PrettyTable()
-        
         my_table.field_names = self.field_names
         for veiculo in self.dados_local:
-            my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor])
+            if veiculo.cpf_comprador != 0:
+                status = 'Vendido'
+            else:
+                status = 'Disponível'
+                
+            my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor, status])
         print(my_table)
     
     def listar_veiculos_disponiveis(self):
@@ -106,7 +108,8 @@ class Database:
         my_table.field_names = self.field_names
         for veiculo in self.dados_local:
             if veiculo.cpf_comprador == 0:
-                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor])
+                status = 'Disponível'
+                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor, status])
         print(my_table)
         
     def listar_veiculos_por_tipo(self, tipo_veiculo):
@@ -114,7 +117,12 @@ class Database:
         my_table.field_names = self.field_names
         for veiculo in self.dados_local:
             if veiculo.tipo_veiculo == tipo_veiculo:
-                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor])
+                if veiculo.cpf_comprador != 0:
+                    status = 'Vendido'
+                else:
+                    status = 'Disponível'
+                    
+                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor, status])
         print(my_table)
         
     def verifica_existencia_veiculo(self, key, valor):

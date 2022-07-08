@@ -49,7 +49,7 @@ class Veiculos:
         
     def cadastrar_veiculo(self):
         try:
-            self.nome = input("Digite o nome (modelo) do veiculo: ")
+            self.nome = Validacoes().valida_string("Digite o nome (modelo) do veiculo: ")
             self.data_fabricacao = Validacoes().valida_data()
             self.placa = Validacoes().valida_placa().upper()
             self.valor = Validacoes().valida_float("Digite o valor do veiculo: ")

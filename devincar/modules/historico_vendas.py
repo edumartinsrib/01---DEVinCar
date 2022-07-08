@@ -17,7 +17,7 @@ class HistoricoVendas():
         return self.dados_vendas_locais
 
     def adicionar_venda(self, veiculo):
-        self.historico_vendas.insert(veiculo.__dict__)
+        self.historico_vendas.insert(veiculo)
         self.dados_vendas_locais.append(veiculo.__dict__)
         
     def listar_vendas(self):
@@ -25,10 +25,10 @@ class HistoricoVendas():
         my_table = PrettyTable()
         
         my_table.field_names = ['numero_chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor', 'Cor', 'CPF do Comprador', 'Data de Venda']
-        for veiculo in self.dados_local:
-            my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, 
-                              veiculo.data_fabricacao, veiculo.placa, veiculo.valor, 
-                              veiculo.cor, veiculo.cpf_comprador, veiculo.data_atual])
+        for veiculo in self.dados_vendas_locais:
+            my_table.add_row([veiculo['numero_chassi'], veiculo['tipo_veiculo'], veiculo['nome'], 
+                              veiculo['data_fabricacao'], veiculo['placa'], veiculo['valor'],
+                              veiculo['cor'], veiculo['cpf_comprador'], veiculo['data_venda']])
         print(my_table)
         
     def listar_vendas_por_tipo(self, tipo_veiculo):
@@ -36,17 +36,17 @@ class HistoricoVendas():
         my_table = PrettyTable()
         
         my_table.field_names = self.field_names
-        for veiculo in self.dados_local:
-            if veiculo.tipo_veiculo == tipo_veiculo:
-                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, 
-                                  veiculo.data_fabricacao, veiculo.placa, veiculo.valor, 
-                                  veiculo.cor, veiculo.cpf_comprador, veiculo.data_atual])
+        for veiculo in self.dados_vendas_locais:
+            if veiculo['tipo_veiculo'] == tipo_veiculo:
+                my_table.add_row([veiculo['numero_chassi'], veiculo['tipo_veiculo'], veiculo['nome'], 
+                              veiculo['data_fabricacao'], veiculo['placa'], veiculo['valor'],
+                              veiculo['cor'], veiculo['cpf_comprador'], veiculo['data_venda']])
         print(my_table)
         
     def maior_valor_venda (self):
         maior_valor = 0
-        for veiculo in self.dados_local:
-            if veiculo.valor > maior_valor:
+        for veiculo in self.dados_vendas_locais:
+            if veiculo['valor'] > maior_valor:
                 maior_valor = veiculo.valor
         if maior_valor == 0:
             return print('Nenhuma venda registrada')
@@ -54,15 +54,15 @@ class HistoricoVendas():
             print(f'O veículo com maior valor de venda foi:')
             my_table = PrettyTable()
             my_table.field_names = self.field_names
-            my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, 
-                                    veiculo.data_fabricacao, veiculo.placa, veiculo.valor, 
-                                    veiculo.cor, veiculo.cpf_comprador, veiculo.data_atual])
+            my_table.add_row([veiculo['numero_chassi'], veiculo['tipo_veiculo'], veiculo['nome'], 
+                              veiculo['data_fabricacao'], veiculo['placa'], veiculo['valor'],
+                              veiculo['cor'], veiculo['cpf_comprador'], veiculo['data_venda']])
             print(my_table)
                         
     def menor_valor_venda(self):
         menor_valor = 0
-        for veiculo in self.dados_local:
-            if veiculo.valor > menor_valor:
+        for veiculo in self.dados_vendas_locais:
+            if veiculo['valor'] > menor_valor:
                 menor_valor = veiculo.valor
         if menor_valor == 0:
             return print('Nenhuma venda registrada')
@@ -70,9 +70,9 @@ class HistoricoVendas():
             print(f'O veículo com maior valor de venda foi:')
             my_table = PrettyTable()
             my_table.field_names = self.field_names
-            my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, 
-                                    veiculo.data_fabricacao, veiculo.placa, veiculo.valor, 
-                                    veiculo.cor, veiculo.cpf_comprador, veiculo.data_atual])
+            my_table.add_row([veiculo['numero_chassi'], veiculo['tipo_veiculo'], veiculo['nome'], 
+                              veiculo['data_fabricacao'], veiculo['placa'], veiculo['valor'],
+                              veiculo['cor'], veiculo['cpf_comprador'], veiculo['data_venda']])
             print(my_table)
         
 

@@ -79,6 +79,20 @@ class Validacoes():
                 print("Opção inválida")
                 continue
     
+    @staticmethod
+    def valida_string(texto_input):
+        while True:
+            try:
+                input_resultado = str(input(texto_input))
+                if input_resultado == "":
+                    print("O campo não pode estar vazio")
+                    continue
+                return input_resultado
+            except ValueError:
+                print("Texto inválido")
+                continue
+    
+    
     
     
 
