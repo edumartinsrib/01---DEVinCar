@@ -1,12 +1,20 @@
 from os import system
-import sys
-from rich import print as rprint
+from rich.console import Console
+from rich.theme import Theme
 from modules import *
 from database import *
 from utils import *
 
-sys.stdin.reconfigure(encoding='utf-8')
-sys.stdout.reconfigure(encoding='utf-8')
+
+personal_theme = Theme({
+    "info": "dim cyan",
+    "warning": "magenta",
+    "danger": "bold red",
+    "success": "bold green",
+})
+
+
+console = Console(theme=personal_theme)
 
 db = Database()
 db.carrega_classes_inicial()
@@ -14,11 +22,11 @@ menu = Menu()
 
 if __name__ == "__main__":
     system("cls")
-    rprint("Bem vindo ao sistema de gerenciamento de veículos da concessionária.")
+    console.print("Bem vindo ao sistema de gerenciamento de veículos da concessionária.", style="info")
     while True:
-        print(menu.mensagem_inicial)
+        console.print(menu.mensagem_inicial)
         menu.get_menu(menu.menu_principal)
-        opcao = input("Escolha uma opção: ")
+        opcao = console.input("Escolha uma opção: ")
         if opcao in menu.menu_principal:
             system("cls")
             if opcao == "0":
@@ -27,7 +35,7 @@ if __name__ == "__main__":
             elif opcao == "1":
                 while True:
                     menu.get_menu(menu.escolha_veiculo)
-                    sub_opcao = input("Escolha o tipo de veículo para cadastro: ")
+                    sub_opcao = console.input("Escolha o tipo de veículo para cadastro: ")
                     if sub_opcao in menu.escolha_veiculo:
                         if sub_opcao == "0":
                             system("cls")
@@ -39,12 +47,12 @@ if __name__ == "__main__":
                         elif sub_opcao == "3":
                             Caminhonete().cadastrar_veiculo(db)
                     else:
-                        rprint("Opção inválida")
+                        console.input("[bold red]Opção inválida - Pressione qualquer tecla para voltar...")
             elif opcao == "2":
                 while True:
-                    rprint('Escolha o tipo de veículo para listagem:')
+                    console.print('Escolha o tipo de veículo para listagem:')
                     menu.get_menu(menu.menu_relatorio_veiculos)
-                    sub_opcao = input("Digite a opção escolhida: ")
+                    sub_opcao = console.input("Digite a opção escolhida: ")
                     if sub_opcao in menu.menu_relatorio_veiculos:
                         system("cls")
                         if sub_opcao == "0":
@@ -59,33 +67,32 @@ if __name__ == "__main__":
                         elif sub_opcao == "4":
                             Caminhonete().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Caminhonete', tipo_veiculo='Caminhonete' )
                             
-                        input("Pressione qualquer tecla para voltar...")
+                        console.input("Pressione qualquer tecla para voltar...")
                         system("cls")
                     else:
-                         input('Opção inválida')
+                         console.input("[bold red]Opção inválida - Pressione qualquer tecla para voltar...")
                          system("cls")  
             elif opcao == "3":
                 while True:
-                    rprint("Digite a placa do veículo que deseja alterar:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
-                    placa = input("Placa: ").upper()
+                    console.print("Digite a placa do veículo que deseja alterar:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
+                    placa = console.input("Placa: ").upper()
                     
                     if placa == "":
                         system("cls")
                         break
                     
                     if placa == "LISTAR":
-                        rprint(f"Listando todos os veiculos disponíveis".center(50, "-"))
-                        db.listar_veiculos_disponiveis()
-                        placa = input("Placa: ").upper()
+                        Veiculos().listar_veiculos(db=db, valor_index='status', valor_filtro='disponivel', tipo_veiculo='Todos')
+                        placa = console.input("Placa: ").upper()
                         
                     veiculo_existe = db.verifica_existencia_veiculo('placa', placa)
                     veiculo_disponivel = db.verifica_disponibilidade_veiculo(placa)
                     
                     if  veiculo_existe == True and veiculo_disponivel == True:
                         veiculo = db.get_veiculo(placa_veiculo=placa)
-                        rprint(f"Escolha a opção que deseja alterar - a cor atual do veículo é ({veiculo.cor}) e o valor atual é ({veiculo.valor}): ")
+                        console.print(f"Escolha a opção que deseja alterar - a cor atual do veículo é ({veiculo.cor}) e o valor atual é ({veiculo.valor}): ")
                         menu.get_menu(menu.menu_modificacoes_veiculos)
-                        sub_opcao = input("Digite a opção desejada: ")
+                        sub_opcao = console.input("Digite a opção desejada: ")
                         if sub_opcao in menu.menu_modificacoes_veiculos:
                             if sub_opcao == "0":
                                 system("cls")
@@ -100,21 +107,20 @@ if __name__ == "__main__":
                                 system("cls")
                                 break
                         else:
-                            rprint("Opção inválida")
+                            console.input("[bold red]Opção inválida - Pressione qualquer tecla para voltar...")
                     else:    
-                        input("Digite qualquer tecla para continuar...")
+                        console.input("Digite qualquer tecla para continuar...")
                         system("cls")
             elif opcao == "4":
-                rprint("Digite a placa do veículo que deseja vender:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
-                placa = input("Placa: ").upper()
+                console.print("Digite a placa do veículo que deseja vender:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
+                placa = console.input("Placa: ").upper()
                     
                 if placa == "":
                    system("cls")
                     
                 if placa == "LISTAR":
-                    rprint(f"Listando todos os veiculos disponíveis".center(50, "-"))
-                    db.listar_veiculos_disponiveis()
-                    placa = input("Placa: ").upper()
+                    Veiculos().listar_veiculos(db=db, valor_index='status', valor_filtro='disponivel', tipo_veiculo='Todos')
+                    placa = console.input("Placa: ").upper()
                     
                 veiculo_existe = db.verifica_existencia_veiculo('placa', placa)
                 veiculo_disponivel = db.verifica_disponibilidade_veiculo(placa)
@@ -122,15 +128,15 @@ if __name__ == "__main__":
                 if  veiculo_existe == True and veiculo_disponivel == True:
                         veiculo = db.get_veiculo(placa_veiculo=placa)
                         veiculo.vender_veiculo(db)
-                        input("\nVeículo vendido com sucesso - pressione qualquer tecla para continuar...")
+                        console.input("\nVeículo vendido com sucesso - pressione qualquer tecla para continuar...")
                         system("cls")
                 else:
-                    input("Pressione qualquer tecla para continuar...")
+                    console.input("Pressione qualquer tecla para continuar...")
                     system("cls")    
             elif opcao == "5":
                 while True:
                     menu.get_menu(menu.menu_relatorios)
-                    sub_opcao = input("Digite a opção escolhida: ")
+                    sub_opcao = console.input("Digite a opção escolhida: ")
                     
                     if sub_opcao in menu.menu_relatorios:
                         system("cls")
@@ -139,9 +145,9 @@ if __name__ == "__main__":
                             break
                         if sub_opcao == "1":
                              while True:
-                                rprint('Escolha o tipo de veículo para listagem:')
+                                console.print('Escolha o tipo de veículo para listagem:')
                                 menu.get_menu(menu.menu_relatorio_veiculos)
-                                sub_opcao = input("Digite a opção escolhida: ")
+                                sub_opcao = console.input("Digite a opção escolhida: ")
                                 if sub_opcao in menu.menu_relatorio_veiculos:
                                     system("cls")
                                     if sub_opcao == "0":
@@ -155,16 +161,16 @@ if __name__ == "__main__":
                                         Moto().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Moto/Triciclo', tipo_veiculo='Moto/Triciclo')
                                     elif sub_opcao == "4":
                                         Caminhonete().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Caminhonete', tipo_veiculo='Caminhonete' )
-                                    input("Pressione qualquer tecla para voltar...")
+                                    console.input("Pressione qualquer tecla para voltar...")
                                     system("cls")
                                 else:
-                                    input('Opção inválida')
+                                    console.input("[bold red]Opção inválida - Pressione qualquer tecla para voltar...")
                                     system("cls")  
                         elif sub_opcao == "2":
                            while True:
-                                rprint('Escolha o tipo de veículo para listagem:')
+                                console.print('Escolha o tipo de veículo para listagem:')
                                 menu.get_menu(menu.menu_relatorio_vendas)
-                                sub_opcao = input("Digite a opção escolhida: ")
+                                sub_opcao = console.input("Digite a opção escolhida: ")
                                 if sub_opcao in menu.menu_relatorio_vendas:
                                     system("cls")
                                     if sub_opcao == "0":
@@ -178,32 +184,32 @@ if __name__ == "__main__":
                                         Moto().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Moto/Triciclo')
                                     elif sub_opcao == "4":
                                         Caminhonete().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Caminhonete' )
-                                    input("Pressione qualquer tecla para voltar...")
+                                    console.input("Pressione qualquer tecla para voltar...")
                                     system("cls")
                                 else:
-                                    input('Opção inválida')
+                                    console.print("[bold red]Opção inválida - Pressione qualquer tecla para voltar...")
                                     system("cls")  
                         elif sub_opcao == "3":
                             Veiculos().listar_veiculos(db=db, valor_index='status', valor_filtro='disponivel', tipo_veiculo='Todos')
-                            input("Pressione qualquer tecla para voltar...")
+                            console.input("Pressione qualquer tecla para voltar...")
                             system("cls")
                         elif sub_opcao == "4":
                             db.historico_vendas.listar_vendas()
-                            input("Pressione qualquer tecla para voltar...")
+                            console.input("Pressione qualquer tecla para voltar...")
                             system("cls")
                         elif sub_opcao == "5":
                             db.historico_vendas.maior_valor_venda()
-                            input("Pressione qualquer tecla para voltar...")
+                            console.input("Pressione qualquer tecla para voltar...")
                             system("cls")
                         elif sub_opcao == "6":
                             db.historico_vendas.menor_valor_venda()
-                            input("Pressione qualquer tecla para voltar...")
+                            console.input("Pressione qualquer tecla para voltar...")
                             system("cls")
-                    else:        
-                        input("Opção inválida - Pressione qualquer tecla para voltar...")
+                    else:
+                        console.input("[bold red]Opção inválida - Pressione qualquer tecla para voltar...")        
                         system("cls")
         else:
-            input("Opção inválida")
+            console.input("[bold red]Opção inválida")
             system("cls")
             continue
  
