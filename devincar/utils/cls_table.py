@@ -4,26 +4,30 @@ from rich.table import Table
 
 class Tables():
     @staticmethod
-    def carrega_tabela(self, campos, valores):
+    def monta_tabela(titulo, campos, valores):
+        my_table = Table(title=titulo, show_header=True, header_style="bold green")
+        
         for campo in campos:
-            self.cabeçalho.append(campo)
+            my_table.add_column(str(campo))
 
         for valor in valores:
-            self.valores_tabela.append([valor.numero_chassi, valor.tipo_veiculo, valor.nome,
-                                       valor.data_fabricacao, valor.placa, valor.valor, valor.status])
-        return self.valores_tabela
+            my_table.add_row(*Tables.ajusta_valores(campos, valor.__dict__))
+               
+        console = Console()
+        console.print(my_table)
 
     @staticmethod
-    def monta_tabela(self):
-        table = Table()
-        self.adiciona_colunas(table)
-        self.adiciona_linhas(table)
+    def ajusta_valores(campos, valores):
+        dados = []
         
-        console = Console()
-        console.print(table)
-
-    def adiciona_colunas(self, table):
-        for coluna in self.cabeçalho:
-            table.add_column(str(coluna))
-        
+        for campo in campos:
+            if campo in valores:
+                
+                dados.append(valores[campo])
+            else:
+                dados.append('-')
+        print(dados)
+        return tuple(valores)
+        #valor_lista = zip*next([x for x in valores.values()])
+        #return valor_lista 
         

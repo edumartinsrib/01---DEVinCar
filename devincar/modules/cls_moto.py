@@ -5,6 +5,22 @@ class Moto(Veiculos):
      
         tipo_veiculo = 'Moto/Triciclo'
         
+        campos_relatorio = {
+        'tipo_veiculo': 'Tipo veiculo',
+        'numero_chassi': 'Número do chassi',
+        'data_fabricacao': 'Data de fabricação',
+        'nome': 'Nome',
+        'placa': 'Placa',
+        'valor': 'Valor',
+        'cpf_comprador': 'CPF do comprador',
+        'cor': 'Cor',
+        'potencia': 'Potência',
+        'qtd_rodas': 'Qtd. rodas',
+        'combustivel': 'Combustivel',
+        'data_venda': 'Data de venda',
+        'status': 'Status',
+    }
+        
         def __init__(self):
              super().__init__()
              self.tipo_veiculo = self.__class__.__name__

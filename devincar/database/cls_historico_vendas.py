@@ -3,11 +3,10 @@ from prettytable import PrettyTable
 from pathlib import Path
 
 class HistoricoVendas():
-    caminho_banco = Path().cwd() / 'devincar/database/data'
     field_names = ['numero_chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor', 'Cor', 'CPF do Comprador', 'Data de Venda']
     
     def __init__(self):
-        self.historico_vendas = TinyDB(self.caminho_banco / 'historico_vendas.json')
+        self.historico_vendas = TinyDB('historico_vendas.json')
         self.dados_vendas_locais = self.carrega_dados_vendas()
     
     def carrega_dados_vendas(self):

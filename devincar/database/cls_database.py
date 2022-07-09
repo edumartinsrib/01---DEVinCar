@@ -1,24 +1,19 @@
-from re import M
+from os import system
+from prettytable import PrettyTable
 from tinydb import TinyDB, Query
-from pathlib import Path
 from rich import print as rprint
-
 from modules import *
+from utils import Tables as PersonalTable
 from .cls_historico_vendas import HistoricoVendas
 
 class Database:
-    
-    caminho_banco = Path().cwd() / 'devincar/database/data'
-
-    field_names = ['chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor', 'status']
-    values = ['numero_chassi', 'tipo_veiculo', 'nome', 'data_fabricacao', 'placa', 'valor']
-    
     def __init__(self):
-        self.dados_externos = TinyDB(self.caminho_banco / 'database.json')
+        self.dados_externos = TinyDB('database.json')
         self.dados_local = []
         self.historico_vendas = HistoricoVendas()
     
     def carrega_classes_inicial(self):
+   
         for dado in self.dados_externos.all():
             if dado['tipo_veiculo'] == 'Carro':
                 novo_carro = Carro()
@@ -34,7 +29,7 @@ class Database:
                                                            qtd_portas=dado['qtd_portas'],
                                                            combustivel=dado['combustivel'])
                 self.dados_local.append(novo_carro)
-            elif dado['tipo_veiculo'] == 'Moto':
+            elif dado['tipo_veiculo'] == 'Moto/Triciclo':
                 novo_moto = Moto()
                 novo_moto.carregamento_inicial(numero_chassi = dado['numero_chassi'],
                                                            data_fabricacao=dado['data_fabricacao'],
@@ -92,16 +87,30 @@ class Database:
                 self.dados_externos.update({'cpf_comprador': veiculo.cpf_comprador}, Query()['placa'] == veiculo.placa)
                 self.historico_vendas.adicionar_venda(veiculo)
                 
-    def listar_todos_veiculos(self):
-        titulo_tabela = "Todos os Veículos"
-        for veiculo in self.dados_local:
-            if veiculo.cpf_comprador != 0:
-                status = 'Vendido'
-            else:
-                status = 'Disponível'
-            self.montar_tabela(titulo_tabela, veiculo, status)
+    def listar_veiculos_por_tipo(self, tipo_veiculo):
+        if tipo_veiculo == 'todos':
+            campos = Veiculo().campos_relatorio
+            valores = []
+            valores.append = [veiculo.__dict__ for veiculo in self.dados_local]
+            
+        elif tipo_veiculo == 'Carro':
+            campos = Carro().campos_relatorio
+            valores = []
+            valores.append = [veiculo.__dict__ for veiculo in self.dados_local if veiculo.tipo_veiculo == 'Carro']
 
-    
+        elif tipo_veiculo == 'Moto/Triciclo':
+            campos = Moto().campos_relatorio
+            valores = []
+            valores.append = [veiculo.__dict__ for veiculo in self.dados_local if veiculo.tipo_veiculo == 'Carro']
+
+        elif tipo_veiculo == 'Caminhonete':
+            campos = Caminhonete().campos_relatorio
+            valores = []
+            valores.append = [veiculo.__dict__ for veiculo in self.dados_local if veiculo.tipo_veiculo == 'Carro']
+            
+        PersonalTable().monta_tabela(titulo=f'Lista de {campos.__class__.__name__}', campos=campos, valores=valores)
+        
+        
     def listar_veiculos_disponiveis(self):
         my_table = PrettyTable()
         my_table.field_names = self.field_names
@@ -111,22 +120,16 @@ class Database:
                 my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor, status])
         rprint(my_table)
         
-    def listar_veiculos_por_tipo(self, tipo_veiculo):
-        my_table = PrettyTable()
-        my_table.field_names = self.field_names
-        for veiculo in self.dados_local:
-            if veiculo.tipo_veiculo == tipo_veiculo:
-                if veiculo.cpf_comprador != 0:
-                    status = 'Vendido'
-                else:
-                    status = 'Disponível'
-                    
-                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor, status])
-        rprint(my_table)
         
     def verifica_existencia_veiculo(self, key, valor):
         if self.dados_externos.contains(Query()[key] == valor) == True:
             return True
+        return False
+    
+    def verifica_existencia_veiculo_por_placa(self, placa):
+        for veiculo in self.dados_local:
+            if veiculo.placa == placa:
+                return True
         return False
 
     def verifica_disponibilidade_veiculo(self, placa):
@@ -134,12 +137,6 @@ class Database:
             if veiculo.placa == placa and veiculo.cpf_comprador == 0:
                 return True
         rprint("\nVeículo não disponível!")
-        return False
-    
-    def verifica_existencia_veiculo_por_placa(self, placa):
-        for veiculo in self.dados_local:
-            if veiculo.placa == placa:
-                return True
         return False
     
     def get_veiculo(self, placa_veiculo):

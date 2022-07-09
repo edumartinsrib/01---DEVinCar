@@ -5,8 +5,8 @@ from database import *
 from utils import *
 
 db = Database()
-menu = Menu()
 db.carrega_classes_inicial()
+menu = Menu()
 
 if __name__ == "__main__":
     system("cls")
@@ -48,13 +48,13 @@ if __name__ == "__main__":
                             system("cls")
                             break
                         if sub_opcao == "1":
-                            db.listar_todos_veiculos()
+                            Veiculos().listar_veiculos(db, 'Todos')
                         elif sub_opcao == "2":
-                            Carro().listar_veiculos(db)
+                            Veiculos().listar_veiculos(db, 'Carro')
                         elif sub_opcao == "3":
-                            Moto().listar_veiculos(db)
+                            Veiculos().listar_veiculos(db, 'Moto/Triciclo')
                         elif sub_opcao == "4":
-                            Caminhonete().listar_veiculos(db)
+                            Veiculos().listar_veiculos(db, 'Caminhonete')
                             
                         input("Pressione qualquer tecla para voltar...")
                         system("cls")

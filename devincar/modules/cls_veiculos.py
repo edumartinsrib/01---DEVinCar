@@ -14,11 +14,23 @@ class Veiculos:
         '6': "Branco",
         '7': "roxo",
     }
-
-    tipos_veiculos = {
-        1: "Carro",
-        2: "Moto",
-        3: "Caminhonete",
+    
+    campos_relatorio = {
+        'tipo_veiculo': 'Tipo veiculo',
+        'numero_chassi': 'Número do chassi',
+        'data_fabricacao': 'Data de fabricação',
+        'nome': 'Nome',
+        'placa': 'Placa',
+        'valor': 'Valor',
+        'cpf_comprador': 'CPF do comprador',
+        'cor': 'Cor',
+        'potencia': 'Potência',
+        'qtd_portas': 'Quantidade de portas',
+        'qtd_rodas': 'Qtd. rodas',
+        'capacidade_carregamento': 'Capacidade de carregamento',
+        'combustivel': 'Combustivel',
+        'data_venda': 'Data de venda',
+        'status': 'Status',
     }
 
     def __init__(self):
@@ -30,9 +42,9 @@ class Veiculos:
         self.valor: float = None
         self.cpf_comprador: str = 0
         self.cor: str = None
-        self.data_atual: str = datetime.now().strftime("%d/%m/%Y")
         self.potencia: int = None
         self.data_venda: str = None
+        self.status: str = 'disponivel'
 
     def carregamento_inicial(self, tipo_veiculo, numero_chassi, data_fabricacao, nome, 
                              placa, valor, cpf_comprador, cor, data_atual, potencia):
@@ -72,13 +84,15 @@ class Veiculos:
     def vender_veiculo(self, db):
         self.cpf_comprador = Validacoes().valida_cpf()
         self.data_venda = datetime.now().strftime("%d/%m/%Y")
+        self.status = 'vendido'
         db.vender_veiculo(self)
     
     def salvar_veiculo(self, db):
         db.salvar_veiculo(self)
         
-    def listar_veiculos(self, db):
-        db.listar_veiculos_por_tipo(self.__class__.__name__,)
+    @staticmethod    
+    def listar_veiculos(db, tipo_veiculo):
+        db.listar_veiculos_por_tipo(tipo_veiculo)
 
     def exibe_cores_disponiveis(self):
         for cor in self.cores_disponiveis:
