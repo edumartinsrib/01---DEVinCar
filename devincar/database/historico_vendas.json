@@ -1,0 +1,19 @@
+{
+  "_default": {
+    "1": {
+      "tipo_veiculo": "Carro",
+      "numero_chassi": "8BD3326xD181825",
+      "data_fabricacao": "20/01/2000",
+      "nome": "gol g5",
+      "placa": "AAA1234",
+      "valor": 15890.0,
+      "cpf_comprador": "12345678911",
+      "cor": "Branco",
+      "potencia": 250,
+      "data_venda": "09/07/2022",
+      "status": "vendido",
+      "combustivel": "Gasolina",
+      "qtd_portas": 2
+    }
+  }
+}

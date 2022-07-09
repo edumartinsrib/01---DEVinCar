@@ -3,7 +3,7 @@ from utils import Validacoes
 
 class Carro(Veiculos):
     opt_combustivel = {
-        1: "Somente Gasolina",
+        1: "Gasolina",
         2: "Flex",
     }
     tipo_veiculo = 'Carro'

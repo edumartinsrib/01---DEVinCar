@@ -1,3 +1,7 @@
+from os import system
+from time import sleep
+from rich.progress import track
+
 
 class MenuPrincipal:
     mensagem_inicial = """
@@ -35,12 +39,8 @@ _____________________________________________________________________
     }
     menu_relatorios = {
         "0": "Voltar",
-        "1": "Relatório de veículos",
-        "2": "Relatório de vendas",
-        "3": "Veículos disponíveis",
-        "4": "Veículos vendidos",
-        "5": "Veículos vendidos com maior preço",
-        "6": "Veículos vendidos com menor preço",
+        "1": "Relatório de veiculos disponíveis",
+        "2": "Relatório de veiculos vendidos",
     }
     menu_relatorio_veiculos = {
         "0": "Voltar",
@@ -52,29 +52,44 @@ _____________________________________________________________________
     menu_relatorio_vendas = {
         "0": "Voltar",
         "1": "Listar todas as vendas",
-        "2": "Listar vendas de carros",
-        "3": "Listar vendas de motos",
-	    "4": "listar vendas de caminhonetes"
-    }
-    menu_relatorio_carros_disponiveis = {
-        "0": "Voltar",
-        "1": "Listar todos os carros disponíveis",
-        "2": "Veículos disponíveis por tipo de automóvel",
-        "3": "Veículos disponíveis por faixa de preço",
-    }
-    menu_relatorio_carros_vendidos = {
-        "0": "Voltar",
-        "1": "Listar todos os carros vendidos",
-        "2": "Veículos vendidos por tipo de automóvel",
-        "3": "Veículos vendidos por faixa de preço",
+        "2": "Listar vendas de Carros",
+        "3": "Listar vendas de Motos",
+	    "4": "listar vendas de Caminhonetes",
+        "5": "Listar venda de MAIOR valor",
+        "6": "Listar venda de MENOR valor",
+     
     }
     menu_modificacoes_veiculos = {
         "0": "Voltar",
         "1": "Alterar a cor do veículo",
         "2": "Alterar o valor do veículo",
     }
+    
+    estilos_dados = {
+        'erro': '[bold red]',
+        'sucesso': '[bold green]',
+        'info': '[bold blue]',
+    }
+    
     @staticmethod
     def get_menu(menu):
         for key, value in menu.items():
             print(f"{key} - {value}".ljust(100))
-
+            
+    @staticmethod
+    def limpar_menu(console, tipo=0, texto=0, estilo=0):
+        if tipo == 'input':
+            console.input(f"{MenuPrincipal.estilos_dados[estilo]}{texto}")
+        elif tipo == 'print' and texto != "":
+            console.print(f"{MenuPrincipal.estilos_dados[estilo]}{texto}")
+        
+        try:
+            system("cls")
+        except:
+            system("clear")
+            
+    @staticmethod
+    def barra_progresso(texto):
+        for _ in track(range(100), description=f'[cyan] {texto}'):
+                sleep(0.02)    
+        return True

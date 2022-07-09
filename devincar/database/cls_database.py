@@ -1,6 +1,4 @@
-from os import system
 from tinydb import TinyDB, Query
-from rich import print as rprint
 from modules import *
 from utils import Tables as PersonalTable
 from .cls_historico_vendas import HistoricoVendas
@@ -64,8 +62,7 @@ class Database:
     def salvar_veiculo(self, veiculo):
         self.dados_local.append(veiculo)
         self.dados_externos.insert(veiculo.__dict__)
-        input("\nVeículo salvo com sucesso - pressione qualquer tecla para continuar...")
-        system('cls')
+
     
     def atualizar_veiculo(self, veiculo):
         try:
@@ -73,8 +70,6 @@ class Database:
                 if veiculo_salvo.placa == veiculo.placa:
                     veiculo_salvo = veiculo
                     self.dados_externos.update(veiculo.__dict__, Query().placa == veiculo.placa)
-                    input("\nVeículo alterado com sucesso - pressione qualquer tecla para continuar...")
-                    system('cls')
                     return True
         except Exception as e:
             print(e)
@@ -84,49 +79,16 @@ class Database:
         for veiculo_salvo in self.dados_local:
             if veiculo_salvo.placa == veiculo.placa:
                 veiculo_salvo = veiculo
-                self.dados_externos.update({'cpf_comprador': veiculo.cpf_comprador}, Query()['placa'] == veiculo.placa)
+                self.dados_externos.update({'cpf_comprador': veiculo.cpf_comprador, 'status': veiculo.status, 'data_venda': veiculo.data_venda}, Query()['placa'] == veiculo.placa)
                 self.historico_vendas.adicionar_venda(veiculo)
-                
-    def listar_veiculos_por_tipo(self, tipo_veiculo):
-        valores_relatorio = []
 
-        if tipo_veiculo == 'Todos':
-            header_relatorio = Veiculos().campos_relatorio.values()
-            campos_relatorio = Veiculos().campos_relatorio.keys()
-            for veiculo in self.dados_local:
-                    valores_relatorio.append(veiculo.__dict__)
-            
-        elif tipo_veiculo == 'Carro':
-            header_relatorio = Carro().campos_relatorio.values()
-            campos_relatorio = Carro().campos_relatorio.keys()
-            for veiculo in self.dados_local:
-                if veiculo.tipo_veiculo == 'Carro':
-                    valores_relatorio.append(veiculo.__dict__)
-
-        elif tipo_veiculo == 'Moto/Triciclo':
-            header_relatorio = Moto().campos_relatorio.values()
-            campos_relatorio = Moto().campos_relatorio.keys()
-            for veiculo in self.dados_local:
-                if veiculo.tipo_veiculo == 'Moto/Triciclo':
-                    valores_relatorio.append(veiculo.__dict__)
-         
-        elif tipo_veiculo == 'Caminhonete':
-            header_relatorio = Caminhonete().campos_relatorio.values()
-            campos_relatorio = Caminhonete().campos_relatorio.keys()
-            for veiculo in self.dados_local:
-                if veiculo.tipo_veiculo == 'Caminhonete':
-                    valores_relatorio.append(veiculo.__dict__)
-                                      
-        PersonalTable().monta_tabela(header=header_relatorio, campos=campos_relatorio, valores=valores_relatorio)
-        
-        
     def listar_veiculos(self, valor_index, valor_filtro, tipo_veiculo, campos_relatorio):
         valores_relatorio = []
         
         for veiculo in self.dados_local:
-            if valor_index == 'Todos':
+            if tipo_veiculo == 'Todos':
                 valores_relatorio.append(veiculo.__dict__)
-            elif getattr(veiculo, valor_index) == valor_filtro:
+            elif getattr(veiculo, valor_index) == valor_filtro and getattr(veiculo, 'tipo_veiculo') == tipo_veiculo:
                 valores_relatorio.append(veiculo.__dict__)
         
         PersonalTable().monta_tabela(valores=valores_relatorio, campos_relatorio=campos_relatorio)
@@ -147,7 +109,6 @@ class Database:
         for veiculo in self.dados_local:
             if veiculo.placa == placa and veiculo.cpf_comprador == 0:
                 return True
-        rprint("\nVeículo não disponível!")
         return False
     
     def get_veiculo(self, placa_veiculo):

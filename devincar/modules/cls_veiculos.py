@@ -66,7 +66,7 @@ class Veiculos:
             self.valor = Validacoes().valida_float("Digite o valor do veiculo: ")
             self.potencia = Validacoes().valida_inteiro("Digite a potencia do veiculo: ")
             self.exibe_cores_disponiveis()
-            self.cores_disponiveis = Validacoes().valida_cores_disponiveis(self.cores_disponiveis)     
+            self.cor = Validacoes().valida_cores_disponiveis(self.cores_disponiveis)     
             self.numero_chassi = self.gerador_chassi()
         except ValueError:
             print("Valor inválido")
@@ -90,7 +90,10 @@ class Veiculos:
         db.salvar_veiculo(self)
 
     def listar_veiculos(self, db, valor_index, valor_filtro, tipo_veiculo):
-        db.listar_veiculos(valor_index, valor_filtro, tipo_veiculo, self.campos_relatorio)
+        if valor_index == 'maior' or valor_index == 'menor':
+            db.historico_vendas.listar_vendas_por_valor(valor_index, valor_filtro, tipo_veiculo, self.campos_relatorio)
+        else:
+            db.listar_veiculos(valor_index, valor_filtro, tipo_veiculo, self.campos_relatorio)
 
     def exibe_cores_disponiveis(self):
         for cor in self.cores_disponiveis:

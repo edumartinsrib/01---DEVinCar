@@ -57,7 +57,7 @@ class Caminhonete(Veiculos):
     
     def carregamento_inicial(self, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, potencia, qtd_portas, combustivel, capacidade_carregamento, status):
         tipo_veiculo = self.__class__.__name__
-        super().carregamento_inicial(tipoveiculo=tipo_veiculo, numero_chassi=numero_chassi, data_fabricacao=data_fabricacao, 
+        super().carregamento_inicial(tipo_veiculo=tipo_veiculo, numero_chassi=numero_chassi, data_fabricacao=data_fabricacao, 
                                      nome=nome, placa=placa,valor=valor,cpf_comprador=cpf_comprador,cor=cor,potencia=potencia,status=status)
         self.qtd_portas = int(qtd_portas)
         self.combustivel = str(combustivel)
