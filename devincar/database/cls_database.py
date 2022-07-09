@@ -3,14 +3,13 @@ from tinydb import TinyDB, Query
 from pathlib import Path
 from rich import print as rprint
 
-from ..modules.cls_veiculos import *
-from ..modules.cls_caminhonete import *
-from ..modules.cls_carro import *
-from ..modules.cls_moto import *
-from .cls_historico_vendas import *
+from modules import *
+from .cls_historico_vendas import HistoricoVendas
 
 class Database:
-    caminho_banco = Path() / 'data'
+    
+    caminho_banco = Path().cwd() / 'devincar/database/data'
+
     field_names = ['chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor', 'status']
     values = ['numero_chassi', 'tipo_veiculo', 'nome', 'data_fabricacao', 'placa', 'valor']
     

@@ -3,7 +3,7 @@ from prettytable import PrettyTable
 from pathlib import Path
 
 class HistoricoVendas():
-    caminho_banco = Path().cwd() / 'devincar/data'
+    caminho_banco = Path().cwd() / 'devincar/database/data'
     field_names = ['numero_chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor', 'Cor', 'CPF do Comprador', 'Data de Venda']
     
     def __init__(self):
