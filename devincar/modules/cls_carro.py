@@ -1,5 +1,5 @@
 from .cls_veiculos import Veiculos
-from .cls_validacoes import Validacoes
+from ..utils.cls_validacoes import Validacoes
 
 class Carro(Veiculos):
     opt_combustivel = {

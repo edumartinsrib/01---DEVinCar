@@ -1,6 +1,8 @@
 from os import system
-from devincar.modules.cls_validacoes import Validacoes
+from rich import print as rprint
 from modules import *
+from database import *
+from utils import *
 
 db = Database()
 menu = Menu()
@@ -8,7 +10,7 @@ db.carrega_classes_inicial()
 
 if __name__ == "__main__":
     system("cls")
-    print("Bem vindo ao sistema de gerenciamento de veículos da concessionária.")
+    rprint("Bem vindo ao sistema de gerenciamento de veículos da concessionária.")
     while True:
         print(menu.mensagem_inicial)
         menu.get_menu(menu.menu_principal)
@@ -34,10 +36,10 @@ if __name__ == "__main__":
                             Caminhonete().cadastrar_veiculo(db)
                         
                     else:
-                        print("Opção inválida")
+                        rprint("Opção inválida")
             elif opcao == "2":
                 while True:
-                    print('Escolha o tipo de veículo para listagem:')
+                    rprint('Escolha o tipo de veículo para listagem:')
                     menu.get_menu(menu.menu_relatorio_veiculos)
                     sub_opcao = input("Digite a opção escolhida: ")
                     if sub_opcao in menu.menu_relatorio_veiculos:
@@ -61,7 +63,7 @@ if __name__ == "__main__":
                          system("cls")  
             elif opcao == "3":
                 while True:
-                    print("Digite a placa do veículo que deseja alterar:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
+                    rprint("Digite a placa do veículo que deseja alterar:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
                     placa = input("Placa: ").upper()
                     
                     if placa == "":
@@ -69,7 +71,7 @@ if __name__ == "__main__":
                         break
                     
                     if placa == "LISTAR":
-                        print(f"Listando todos os veiculos disponíveis".center(50, "-"))
+                        rprint(f"Listando todos os veiculos disponíveis".center(50, "-"))
                         db.listar_veiculos_disponiveis()
                         placa = input("Placa: ").upper()
                         
@@ -78,7 +80,7 @@ if __name__ == "__main__":
                     
                     if  veiculo_existe == True and veiculo_disponivel == True:
                         veiculo = db.get_veiculo(placa_veiculo=placa)
-                        print(f"Escolha a opção que deseja alterar - a cor atual do veículo é ({veiculo.cor}) e o valor atual é ({veiculo.valor}): ")
+                        rprint(f"Escolha a opção que deseja alterar - a cor atual do veículo é ({veiculo.cor}) e o valor atual é ({veiculo.valor}): ")
                         menu.get_menu(menu.menu_modificacoes_veiculos)
                         sub_opcao = input("Digite a opção desejada: ")
                         if sub_opcao in menu.menu_modificacoes_veiculos:
@@ -95,19 +97,19 @@ if __name__ == "__main__":
                                 system("cls")
                                 break
                         else:
-                            print("Opção inválida")
+                            rprint("Opção inválida")
                     else:    
                         input("Digite qualquer tecla para continuar...")
                         system("cls")
             elif opcao == "4":
-                print("Digite a placa do veículo que deseja vender:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
+                rprint("Digite a placa do veículo que deseja vender:\nOu digite 'LISTAR' para exibir todos os veiculos ou ENTER para voltar")
                 placa = input("Placa: ").upper()
                     
                 if placa == "":
                    system("cls")
                     
                 if placa == "LISTAR":
-                    print(f"Listando todos os veiculos disponíveis".center(50, "-"))
+                    rprint(f"Listando todos os veiculos disponíveis".center(50, "-"))
                     db.listar_veiculos_disponiveis()
                     placa = input("Placa: ").upper()
                     
@@ -134,7 +136,7 @@ if __name__ == "__main__":
                             break
                         if sub_opcao == "1":
                              while True:
-                                print('Escolha o tipo de veículo para listagem:')
+                                rprint('Escolha o tipo de veículo para listagem:')
                                 menu.get_menu(menu.menu_relatorio_veiculos)
                                 sub_opcao = input("Digite a opção escolhida: ")
                                 if sub_opcao in menu.menu_relatorio_veiculos:
@@ -157,7 +159,7 @@ if __name__ == "__main__":
                                     system("cls")  
                         elif sub_opcao == "2":
                            while True:
-                                print('Escolha o tipo de veículo para listagem:')
+                                rprint('Escolha o tipo de veículo para listagem:')
                                 menu.get_menu(menu.menu_relatorio_vendas)
                                 sub_opcao = input("Digite a opção escolhida: ")
                                 if sub_opcao in menu.menu_relatorio_vendas:
@@ -197,9 +199,6 @@ if __name__ == "__main__":
                     else:        
                         input("Opção inválida - Pressione qualquer tecla para voltar...")
                         system("cls")
-                        
-            elif opcao == "6":
-                break
         else:
             input("Opção inválida")
             system("cls")

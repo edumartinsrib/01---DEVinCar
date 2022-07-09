@@ -2,7 +2,7 @@ from os import system
 from uuid import uuid4
 from random import randint
 from datetime import datetime
-from .cls_validacoes import Validacoes
+from ..utils.cls_validacoes import Validacoes
 
 class Veiculos:
     cores_disponiveis = {

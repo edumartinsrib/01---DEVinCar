@@ -1,5 +1,5 @@
 
-class Menu_Principal:
+class MenuPrincipal:
     mensagem_inicial = """
     
 ██████╗ ███████╗██╗   ██╗██╗███╗   ██╗ ██████╗ █████╗ ██████╗ 
