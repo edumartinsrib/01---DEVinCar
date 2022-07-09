@@ -1,23 +1,18 @@
+from os import system
 from tinydb import TinyDB, Query
-from prettytable import PrettyTable
-from pathlib import Path
-from .cls_veiculos import *
-from .cls_caminhonete import *
-from .cls_carro import *
-from .cls_moto import *
-
-
-
+from rich import print as rprint
+from modules import *
+from utils import Tables as PersonalTable
+from .cls_historico_vendas import HistoricoVendas
 
 class Database:
-    caminho_banco = Path().cwd() / 'devincar/data'
-    
     def __init__(self):
-        self.dados_externos = TinyDB(self.caminho_banco / 'database.json')
-        self._historico_vendas = TinyDB(self.caminho_banco / 'historico_vendas.json')
+        self.dados_externos = TinyDB('devincar/database/database.json')
         self.dados_local = []
+        self.historico_vendas = HistoricoVendas()
     
     def carrega_classes_inicial(self):
+   
         for dado in self.dados_externos.all():
             if dado['tipo_veiculo'] == 'Carro':
                 novo_carro = Carro()
@@ -28,12 +23,13 @@ class Database:
                                                            valor=dado['valor'],
                                                            cpf_comprador=dado['cpf_comprador'],
                                                            cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
                                                            potencia=dado['potencia'],
                                                            qtd_portas=dado['qtd_portas'],
+                                                           status=dado['status'],
                                                            combustivel=dado['combustivel'])
                 self.dados_local.append(novo_carro)
-            elif dado['tipo_veiculo'] == 'Moto':
+
+            elif dado['tipo_veiculo'] == 'Moto/Triciclo':
                 novo_moto = Moto()
                 novo_moto.carregamento_inicial(numero_chassi = dado['numero_chassi'],
                                                            data_fabricacao=dado['data_fabricacao'],
@@ -42,8 +38,8 @@ class Database:
                                                            valor=dado['valor'],
                                                            cpf_comprador=dado['cpf_comprador'],
                                                            cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
                                                            potencia=dado['potencia'],
+                                                           status=dado['status'],
                                                            qtd_rodas=dado['qtd_rodas'])
                 self.dados_local.append(novo_moto)
             elif dado['tipo_veiculo'] == 'Caminhonete':
@@ -55,11 +51,11 @@ class Database:
                                                            valor=dado['valor'],
                                                            cpf_comprador=dado['cpf_comprador'],
                                                            cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
                                                            potencia=dado['potencia'],
                                                            qtd_portas=dado['qtd_portas'],
                                                            combustivel=dado['combustivel'],
-                                                           capacidade_carregamento=dado['capacidade_carregamento'])
+                                                           capacidade_carregamento=dado['capacidade_carregamento'],
+                                                           status=dado['status'])
                 self.dados_local.append(novo_caminhonete)
     
     def retorna_dados_local(self):
@@ -83,26 +79,75 @@ class Database:
         except Exception as e:
             print(e)
             return False
+    
+    def vender_veiculo(self, veiculo):
+        for veiculo_salvo in self.dados_local:
+            if veiculo_salvo.placa == veiculo.placa:
+                veiculo_salvo = veiculo
+                self.dados_externos.update({'cpf_comprador': veiculo.cpf_comprador}, Query()['placa'] == veiculo.placa)
+                self.historico_vendas.adicionar_venda(veiculo)
+                
+    def listar_veiculos_por_tipo(self, tipo_veiculo):
+        valores_relatorio = []
+
+        if tipo_veiculo == 'Todos':
+            header_relatorio = Veiculos().campos_relatorio.values()
+            campos_relatorio = Veiculos().campos_relatorio.keys()
+            for veiculo in self.dados_local:
+                    valores_relatorio.append(veiculo.__dict__)
             
-    def listar_todos_veiculos_menu(self):
-        my_table = PrettyTable()
+        elif tipo_veiculo == 'Carro':
+            header_relatorio = Carro().campos_relatorio.values()
+            campos_relatorio = Carro().campos_relatorio.keys()
+            for veiculo in self.dados_local:
+                if veiculo.tipo_veiculo == 'Carro':
+                    valores_relatorio.append(veiculo.__dict__)
+
+        elif tipo_veiculo == 'Moto/Triciclo':
+            header_relatorio = Moto().campos_relatorio.values()
+            campos_relatorio = Moto().campos_relatorio.keys()
+            for veiculo in self.dados_local:
+                if veiculo.tipo_veiculo == 'Moto/Triciclo':
+                    valores_relatorio.append(veiculo.__dict__)
+         
+        elif tipo_veiculo == 'Caminhonete':
+            header_relatorio = Caminhonete().campos_relatorio.values()
+            campos_relatorio = Caminhonete().campos_relatorio.keys()
+            for veiculo in self.dados_local:
+                if veiculo.tipo_veiculo == 'Caminhonete':
+                    valores_relatorio.append(veiculo.__dict__)
+                                      
+        PersonalTable().monta_tabela(header=header_relatorio, campos=campos_relatorio, valores=valores_relatorio)
         
-        my_table.field_names = ['numero_chassi', 'Tipo', 'Nome/Modelo', 'Data de Fabricação', 'Placa', 'Valor']
+        
+    def listar_veiculos(self, valor_index, valor_filtro, tipo_veiculo, campos_relatorio):
+        valores_relatorio = []
+        
         for veiculo in self.dados_local:
-            my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor])
-        print(my_table)
+            if valor_index == 'Todos':
+                valores_relatorio.append(veiculo.__dict__)
+            elif getattr(veiculo, valor_index) == valor_filtro:
+                valores_relatorio.append(veiculo.__dict__)
+        
+        PersonalTable().monta_tabela(valores=valores_relatorio, campos_relatorio=campos_relatorio)
+                
         
     def verifica_existencia_veiculo(self, key, valor):
         if self.dados_externos.contains(Query()[key] == valor) == True:
             return True
-        print("\nVeículo não encontrado!")
+        return False
+    
+    def verifica_existencia_veiculo_por_placa(self, placa):
+        for veiculo in self.dados_local:
+            if veiculo.placa == placa:
+                return True
         return False
 
     def verifica_disponibilidade_veiculo(self, placa):
         for veiculo in self.dados_local:
             if veiculo.placa == placa and veiculo.cpf_comprador == 0:
                 return True
-        print("\nVeículo não disponível!")
+        rprint("\nVeículo não disponível!")
         return False
     
     def get_veiculo(self, placa_veiculo):
@@ -111,7 +156,6 @@ class Database:
                 return veiculo
         return None
 
-    def vender_veiculo(self, key, valor_filtro, valor):
-        self.dados_externos.update({'cpf_comprador': valor}, Query()[key] == valor_filtro)
-        print("Veículo vendido com sucesso")
+
+    
         
