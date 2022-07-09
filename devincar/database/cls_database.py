@@ -1,5 +1,4 @@
 from os import system
-from prettytable import PrettyTable
 from tinydb import TinyDB, Query
 from rich import print as rprint
 from modules import *
@@ -8,7 +7,7 @@ from .cls_historico_vendas import HistoricoVendas
 
 class Database:
     def __init__(self):
-        self.dados_externos = TinyDB('database.json')
+        self.dados_externos = TinyDB('devincar/database/database.json')
         self.dados_local = []
         self.historico_vendas = HistoricoVendas()
     
@@ -24,11 +23,12 @@ class Database:
                                                            valor=dado['valor'],
                                                            cpf_comprador=dado['cpf_comprador'],
                                                            cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
                                                            potencia=dado['potencia'],
                                                            qtd_portas=dado['qtd_portas'],
+                                                           status=dado['status'],
                                                            combustivel=dado['combustivel'])
                 self.dados_local.append(novo_carro)
+
             elif dado['tipo_veiculo'] == 'Moto/Triciclo':
                 novo_moto = Moto()
                 novo_moto.carregamento_inicial(numero_chassi = dado['numero_chassi'],
@@ -38,8 +38,8 @@ class Database:
                                                            valor=dado['valor'],
                                                            cpf_comprador=dado['cpf_comprador'],
                                                            cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
                                                            potencia=dado['potencia'],
+                                                           status=dado['status'],
                                                            qtd_rodas=dado['qtd_rodas'])
                 self.dados_local.append(novo_moto)
             elif dado['tipo_veiculo'] == 'Caminhonete':
@@ -51,11 +51,11 @@ class Database:
                                                            valor=dado['valor'],
                                                            cpf_comprador=dado['cpf_comprador'],
                                                            cor=dado['cor'],
-                                                           data_atual=dado['data_atual'],
                                                            potencia=dado['potencia'],
                                                            qtd_portas=dado['qtd_portas'],
                                                            combustivel=dado['combustivel'],
-                                                           capacidade_carregamento=dado['capacidade_carregamento'])
+                                                           capacidade_carregamento=dado['capacidade_carregamento'],
+                                                           status=dado['status'])
                 self.dados_local.append(novo_caminhonete)
     
     def retorna_dados_local(self):
@@ -88,38 +88,49 @@ class Database:
                 self.historico_vendas.adicionar_venda(veiculo)
                 
     def listar_veiculos_por_tipo(self, tipo_veiculo):
-        if tipo_veiculo == 'todos':
-            campos = Veiculo().campos_relatorio
-            valores = []
-            valores.append = [veiculo.__dict__ for veiculo in self.dados_local]
+        valores_relatorio = []
+
+        if tipo_veiculo == 'Todos':
+            header_relatorio = Veiculos().campos_relatorio.values()
+            campos_relatorio = Veiculos().campos_relatorio.keys()
+            for veiculo in self.dados_local:
+                    valores_relatorio.append(veiculo.__dict__)
             
         elif tipo_veiculo == 'Carro':
-            campos = Carro().campos_relatorio
-            valores = []
-            valores.append = [veiculo.__dict__ for veiculo in self.dados_local if veiculo.tipo_veiculo == 'Carro']
+            header_relatorio = Carro().campos_relatorio.values()
+            campos_relatorio = Carro().campos_relatorio.keys()
+            for veiculo in self.dados_local:
+                if veiculo.tipo_veiculo == 'Carro':
+                    valores_relatorio.append(veiculo.__dict__)
 
         elif tipo_veiculo == 'Moto/Triciclo':
-            campos = Moto().campos_relatorio
-            valores = []
-            valores.append = [veiculo.__dict__ for veiculo in self.dados_local if veiculo.tipo_veiculo == 'Carro']
-
+            header_relatorio = Moto().campos_relatorio.values()
+            campos_relatorio = Moto().campos_relatorio.keys()
+            for veiculo in self.dados_local:
+                if veiculo.tipo_veiculo == 'Moto/Triciclo':
+                    valores_relatorio.append(veiculo.__dict__)
+         
         elif tipo_veiculo == 'Caminhonete':
-            campos = Caminhonete().campos_relatorio
-            valores = []
-            valores.append = [veiculo.__dict__ for veiculo in self.dados_local if veiculo.tipo_veiculo == 'Carro']
-            
-        PersonalTable().monta_tabela(titulo=f'Lista de {campos.__class__.__name__}', campos=campos, valores=valores)
+            header_relatorio = Caminhonete().campos_relatorio.values()
+            campos_relatorio = Caminhonete().campos_relatorio.keys()
+            for veiculo in self.dados_local:
+                if veiculo.tipo_veiculo == 'Caminhonete':
+                    valores_relatorio.append(veiculo.__dict__)
+                                      
+        PersonalTable().monta_tabela(header=header_relatorio, campos=campos_relatorio, valores=valores_relatorio)
         
         
-    def listar_veiculos_disponiveis(self):
-        my_table = PrettyTable()
-        my_table.field_names = self.field_names
+    def listar_veiculos(self, valor_index, valor_filtro, tipo_veiculo, campos_relatorio):
+        valores_relatorio = []
+        
         for veiculo in self.dados_local:
-            if veiculo.cpf_comprador == 0:
-                status = 'Disponível'
-                my_table.add_row([veiculo.numero_chassi, veiculo.tipo_veiculo, veiculo.nome, veiculo.data_fabricacao, veiculo.placa, veiculo.valor, status])
-        rprint(my_table)
+            if valor_index == 'Todos':
+                valores_relatorio.append(veiculo.__dict__)
+            elif getattr(veiculo, valor_index) == valor_filtro:
+                valores_relatorio.append(veiculo.__dict__)
         
+        PersonalTable().monta_tabela(valores=valores_relatorio, campos_relatorio=campos_relatorio)
+                
         
     def verifica_existencia_veiculo(self, key, valor):
         if self.dados_externos.contains(Query()[key] == valor) == True:

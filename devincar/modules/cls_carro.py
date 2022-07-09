@@ -50,8 +50,9 @@ class Carro(Veiculos):
                 self.combustivel = self.opt_combustivel[opcao]
                 break
             
-    def carregamento_inicial(self, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual, potencia, qtd_portas, combustivel):
+    def carregamento_inicial(self, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, potencia, qtd_portas, combustivel, status):
           tipo_veiculo = self.__class__.__name__
-          super().carregamento_inicial(tipo_veiculo, numero_chassi, data_fabricacao, nome, placa, valor, cpf_comprador, cor, data_atual, potencia)
+          super().carregamento_inicial(tipo_veiculo=tipo_veiculo,numero_chassi=numero_chassi,data_fabricacao=data_fabricacao, 
+                                       nome=nome,placa=placa,valor=valor,cpf_comprador=cpf_comprador,cor=cor,potencia=potencia,status=status)
           self.qtd_portas = int(qtd_portas)
           self.combustivel = str(combustivel)

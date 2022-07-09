@@ -1,17 +1,19 @@
 from rich.console import Console
 from rich.table import Table
-
+from modules import *
 
 class Tables():
     @staticmethod
-    def monta_tabela(titulo, campos, valores):
-        my_table = Table(title=titulo, show_header=True, header_style="bold green")
+    def monta_tabela(valores, campos_relatorio):
+        my_table = Table(title='Relatório de Veículos', show_header=True, header_style="bold green")
         
-        for campo in campos:
-            my_table.add_column(str(campo))
+        header, campos = (campos_relatorio.values(), campos_relatorio.keys())
 
+        for info_header in header:
+            my_table.add_column(str(info_header))
+            
         for valor in valores:
-            my_table.add_row(*Tables.ajusta_valores(campos, valor.__dict__))
+            my_table.add_row(*Tables.ajusta_valores(campos, valor))
                
         console = Console()
         console.print(my_table)
@@ -21,13 +23,11 @@ class Tables():
         dados = []
         
         for campo in campos:
+            
             if campo in valores:
-                
-                dados.append(valores[campo])
+                dados.append(str(valores[campo]))
             else:
                 dados.append('-')
-        print(dados)
-        return tuple(valores)
-        #valor_lista = zip*next([x for x in valores.values()])
-        #return valor_lista 
+
+        return tuple(dados)
         

@@ -1,1 +1,20 @@
-{"_default": {"1": {"tipo_veiculo": "Carro", "numero_chassi": "8BD21111D111967", "data_fabricacao": "20/01/2002", "nome": "gol", "placa": "AAA0123", "valor": 25000.0, "cpf_comprador": 0, "cor": null, "potencia": 50, "data_venda": null, "status": "disponivel", "combustivel": "Somente Gasolina", "qtd_portas": 2, "cores_disponiveis": "Azul"}}}
+{
+  "_default": {
+    "1": {
+      "tipo_veiculo": "Carro",
+      "numero_chassi": "9BD3353bD181234",
+      "data_fabricacao": "20/10/2012",
+      "nome": "gol g5",
+      "placa": "AAA0123",
+      "valor": 200.0,
+      "cpf_comprador": 0,
+      "cor": null,
+      "potencia": 45,
+      "data_venda": null,
+      "status": "disponivel",
+      "combustivel": "Somente Gasolina",
+      "qtd_portas": 2,
+      "cores_disponiveis": "Azul"
+    }
+  }
+}

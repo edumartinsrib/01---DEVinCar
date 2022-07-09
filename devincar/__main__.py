@@ -1,8 +1,12 @@
 from os import system
+import sys
 from rich import print as rprint
 from modules import *
 from database import *
 from utils import *
+
+sys.stdin.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8')
 
 db = Database()
 db.carrega_classes_inicial()
@@ -34,7 +38,6 @@ if __name__ == "__main__":
                             Moto().cadastrar_veiculo(db)
                         elif sub_opcao == "3":
                             Caminhonete().cadastrar_veiculo(db)
-                        
                     else:
                         rprint("Opção inválida")
             elif opcao == "2":
@@ -48,13 +51,13 @@ if __name__ == "__main__":
                             system("cls")
                             break
                         if sub_opcao == "1":
-                            Veiculos().listar_veiculos(db, 'Todos')
+                            Veiculos().listar_veiculos(db=db, valor_index='Todos', valor_filtro='Todos', tipo_veiculo='Todos')
                         elif sub_opcao == "2":
-                            Veiculos().listar_veiculos(db, 'Carro')
+                            Carro().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Carro', tipo_veiculo='Carro')
                         elif sub_opcao == "3":
-                            Veiculos().listar_veiculos(db, 'Moto/Triciclo')
+                            Moto().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Moto/Triciclo', tipo_veiculo='Moto/Triciclo')
                         elif sub_opcao == "4":
-                            Veiculos().listar_veiculos(db, 'Caminhonete')
+                            Caminhonete().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Caminhonete', tipo_veiculo='Caminhonete' )
                             
                         input("Pressione qualquer tecla para voltar...")
                         system("cls")
@@ -145,13 +148,13 @@ if __name__ == "__main__":
                                         system("cls")
                                         break
                                     if sub_opcao == "1":
-                                        db.listar_todos_veiculos()
+                                        Veiculos().listar_veiculos(db=db, valor_index='Todos', valor_filtro='Todos', tipo_veiculo='Todos')
                                     elif sub_opcao == "2":
-                                        Carro().listar_veiculos(db)
+                                        Carro().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Carro', tipo_veiculo='Carro')
                                     elif sub_opcao == "3":
-                                        Moto().listar_veiculos(db)
+                                        Moto().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Moto/Triciclo', tipo_veiculo='Moto/Triciclo')
                                     elif sub_opcao == "4":
-                                        Caminhonete().listar_veiculos(db)
+                                        Caminhonete().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Caminhonete', tipo_veiculo='Caminhonete' )
                                     input("Pressione qualquer tecla para voltar...")
                                     system("cls")
                                 else:
@@ -168,20 +171,20 @@ if __name__ == "__main__":
                                         system("cls")
                                         break
                                     if sub_opcao == "1":
-                                        db.historico_vendas.listar_vendas()
+                                        Veiculos().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Todos')
                                     elif sub_opcao == "2":
-                                        db.historico_vendas.listar_vendas_por_tipo('Carro')
+                                        Carro().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Carro')
                                     elif sub_opcao == "3":
-                                        db.historico_vendas.listar_vendas_por_tipo('Moto')
+                                        Moto().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Moto/Triciclo')
                                     elif sub_opcao == "4":
-                                        db.historico_vendas.listar_vendas_por_tipo('Caminhonete')
+                                        Caminhonete().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Caminhonete' )
                                     input("Pressione qualquer tecla para voltar...")
                                     system("cls")
                                 else:
                                     input('Opção inválida')
                                     system("cls")  
                         elif sub_opcao == "3":
-                            db.listar_veiculos_disponiveis()
+                            Veiculos().listar_veiculos(db=db, valor_index='status', valor_filtro='disponivel', tipo_veiculo='Todos')
                             input("Pressione qualquer tecla para voltar...")
                             system("cls")
                         elif sub_opcao == "4":

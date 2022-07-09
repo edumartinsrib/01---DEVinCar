@@ -1,4 +1,3 @@
-from os import system
 from uuid import uuid4
 from random import randint
 from datetime import datetime
@@ -47,7 +46,7 @@ class Veiculos:
         self.status: str = 'disponivel'
 
     def carregamento_inicial(self, tipo_veiculo, numero_chassi, data_fabricacao, nome, 
-                             placa, valor, cpf_comprador, cor, data_atual, potencia):
+                             placa, valor, cpf_comprador, cor, potencia, status):
         self.tipo_veiculo = tipo_veiculo
         self.numero_chassi = str(numero_chassi)
         self.data_fabricacao = str(data_fabricacao)
@@ -56,8 +55,8 @@ class Veiculos:
         self.valor = float(valor)
         self.cpf_comprador = cpf_comprador
         self.cor = str(cor)
-        self.data_atual = str(data_atual) 
         self.potencia = int(potencia)
+        self.status = str(status)
         
     def cadastrar_veiculo(self, db):
         try:
@@ -89,10 +88,9 @@ class Veiculos:
     
     def salvar_veiculo(self, db):
         db.salvar_veiculo(self)
-        
-    @staticmethod    
-    def listar_veiculos(db, tipo_veiculo):
-        db.listar_veiculos_por_tipo(tipo_veiculo)
+
+    def listar_veiculos(self, db, valor_index, valor_filtro, tipo_veiculo):
+        db.listar_veiculos(valor_index, valor_filtro, tipo_veiculo, self.campos_relatorio)
 
     def exibe_cores_disponiveis(self):
         for cor in self.cores_disponiveis:
