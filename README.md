@@ -11,7 +11,6 @@ O projeto tem como objetivo a confecção de um programa de linha de comando em 
 - Modelagem: Criação de Classes e Abstração.
 - Versionamento: utilização do github como ferramenta de versionamento, utilizando os conceitos de gitflow.
 
-O projeto finalizado pode ser conferido no link: <a href>https://devinventary.netlify.app/
 </p>
 
 
