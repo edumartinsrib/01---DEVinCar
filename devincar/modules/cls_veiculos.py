@@ -11,7 +11,7 @@ class Veiculos:
         '4': "Verde",
         '5': "Preto",
         '6': "Branco",
-        '7': "roxo",
+        '7': "Roxo",
     }
     
     campos_relatorio = {
@@ -20,8 +20,6 @@ class Veiculos:
         'data_fabricacao': 'Data de fabricação',
         'nome': 'Nome',
         'placa': 'Placa',
-        'valor': 'Valor',
-        'cpf_comprador': 'CPF do comprador',
         'cor': 'Cor',
         'potencia': 'Potência',
         'qtd_portas': 'Quantidade de portas',
@@ -29,6 +27,24 @@ class Veiculos:
         'capacidade_carregamento': 'Capacidade de carregamento',
         'combustivel': 'Combustivel',
         'data_venda': 'Data de venda',
+        'valor': 'Valor',
+        'cpf_comprador': 'CPF do comprador',
+        'status': 'Status',
+    }
+    
+    campos_relatorio_veiculo_disponivel = {
+        'tipo_veiculo': 'Tipo veiculo',
+        'numero_chassi': 'Número do chassi',
+        'data_fabricacao': 'Data de fabricação',
+        'nome': 'Nome',
+        'placa': 'Placa',
+        'cor': 'Cor',
+        'potencia': 'Potência',
+        'qtd_portas': 'Quantidade de portas',
+        'qtd_rodas': 'Qtd. rodas',
+        'capacidade_carregamento': 'Capacidade de carregamento',
+        'combustivel': 'Combustivel',
+        'valor': 'Valor',
         'status': 'Status',
     }
 
@@ -90,10 +106,16 @@ class Veiculos:
         db.salvar_veiculo(self)
 
     def listar_veiculos(self, db, valor_index, valor_filtro, tipo_veiculo):
+        if valor_filtro == 'disponivel':
+            self.campos_relatorio = self.campos_relatorio_veiculo_disponivel
+        elif valor_filtro == 'vendido':
+            self.campos_relatorio = self.campos_relatorio
+        
+        
         if valor_index == 'maior' or valor_index == 'menor':
-            db.historico_vendas.listar_vendas_por_valor(valor_index, valor_filtro, tipo_veiculo, self.campos_relatorio)
+            db.historico_vendas.listar_vendas_por_valor(valor_index=valor_index, campos_relatorio=self.campos_relatorio)
         else:
-            db.listar_veiculos(valor_index, valor_filtro, tipo_veiculo, self.campos_relatorio)
+            db.listar_veiculos(valor_index=valor_index, valor_filtro=valor_filtro, tipo_veiculo=tipo_veiculo,campos_relatorio=self.campos_relatorio)
 
     def exibe_cores_disponiveis(self):
         for cor in self.cores_disponiveis:

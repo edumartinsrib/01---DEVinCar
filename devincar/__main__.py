@@ -20,7 +20,7 @@ menu = Menu()
 
 if __name__ == "__main__":
     menu.limpar_menu(console=console)
-    console.print("Bem vindo ao sistema de gerenciamento de veículos da concessionária.", style="info")
+    console.print("Bem vindo ao sistema de gerenciamento de veículos da concessionária. :car:", style="info")
     while True:
         console.print(menu.mensagem_inicial)
         menu.get_menu(menu.menu_principal)
@@ -40,15 +40,15 @@ if __name__ == "__main__":
                             break
                         elif sub_opcao == "1":
                             Carro().cadastrar_veiculo(db)
-                            menu.barra_progresso('Cadastrando novo Carro...')
+                            menu.barra_progresso('Cadastrando veículo...')
                             menu.limpar_menu(console=console, tipo='input', texto="Veículo cadastrado com sucesso!\nPressione qualquer tecla para voltar...", estilo='sucesso')
                         elif sub_opcao == "2":
-                            menu.barra_progresso('Cadastrando nova Moto/Triciclo...')
-                            Moto().cadastrar_veiculo(db)
+                            MotoTriciclo().cadastrar_veiculo(db)
+                            menu.barra_progresso('Cadastrando veículo...')
                             menu.limpar_menu(console=console, tipo='input', texto="Veículo cadastrado com sucesso!\nPressione qualquer tecla para voltar...", estilo='sucesso')
                         elif sub_opcao == "3":
-                            menu.barra_progresso('Cadastrando nova Caminhonete...')
                             Caminhonete().cadastrar_veiculo(db)
+                            menu.barra_progresso('Cadastrando veículo...')
                             menu.limpar_menu(console=console, tipo='input', texto="Veículo cadastrado com sucesso!\nPressione qualquer tecla para voltar...", estilo='sucesso')
                     else:
                         console.input("[bold red]Opção inválida - Pressione qualquer tecla para voltar...")
@@ -67,7 +67,7 @@ if __name__ == "__main__":
                         elif sub_opcao == "2":
                             Carro().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Carro', tipo_veiculo='Carro')
                         elif sub_opcao == "3":
-                            Moto().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Moto/Triciclo', tipo_veiculo='Moto/Triciclo')
+                            MotoTriciclo().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='MotoTriciclo', tipo_veiculo='MotoTriciclo')
                         elif sub_opcao == "4":
                             Caminhonete().listar_veiculos(db=db, valor_index='tipo_veiculo', valor_filtro='Caminhonete', tipo_veiculo='Caminhonete' )
                             
@@ -167,7 +167,7 @@ if __name__ == "__main__":
                                     elif sub_opcao == "2":
                                         Carro().listar_veiculos(db=db, valor_index='status', valor_filtro='disponivel', tipo_veiculo='Carro')
                                     elif sub_opcao == "3":
-                                        Moto().listar_veiculos(db=db, valor_index='status', valor_filtro='disponivel', tipo_veiculo='Moto/Triciclo')
+                                        MotoTriciclo().listar_veiculos(db=db, valor_index='status', valor_filtro='disponivel', tipo_veiculo='MotoTriciclo')
                                     elif sub_opcao == "4":
                                         Caminhonete().listar_veiculos(db=db, valor_index='status', valor_filtro='disponivel', tipo_veiculo='Caminhonete' )
                                     menu.limpar_menu(console=console, tipo='input', texto="Pressione qualquer tecla para continuar...", estilo='info')
@@ -188,13 +188,13 @@ if __name__ == "__main__":
                                     elif sub_opcao == "2":
                                         Carro().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Carro')
                                     elif sub_opcao == "3":
-                                        Moto().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Moto/Triciclo')
+                                        MotoTriciclo().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='MotoTriciclo')
                                     elif sub_opcao == "4":
                                         Caminhonete().listar_veiculos(db=db, valor_index='status', valor_filtro='vendido', tipo_veiculo='Caminhonete' )
                                     elif sub_opcao == "5":
                                         Veiculos().listar_veiculos(db=db, valor_index='maior', valor_filtro='vendido', tipo_veiculo='Todos')
                                     elif sub_opcao == "6":
-                                        Veiculos().listar_veiculos(db=db, valor_index='maior', valor_filtro='vendido', tipo_veiculo='Carro')
+                                        Veiculos().listar_veiculos(db=db, valor_index='menor', valor_filtro='vendido', tipo_veiculo='Carro')
                                         
                                     menu.limpar_menu(console=console, tipo='input', texto="Pressione qualquer tecla para continuar...", estilo='info')
                                 else:

@@ -1,9 +1,9 @@
 from .cls_veiculos import Veiculos
 from utils import Validacoes
 
-class Moto(Veiculos):
+class MotoTriciclo(Veiculos):
      
-        tipo_veiculo = 'Moto/Triciclo'
+        tipo_veiculo = 'MotoTriciclo'
         
         campos_relatorio = {
         'tipo_veiculo': 'Tipo veiculo',
@@ -14,10 +14,21 @@ class Moto(Veiculos):
         'valor': 'Valor',
         'cpf_comprador': 'CPF do comprador',
         'cor': 'Cor',
-        'potencia': 'Potência',
-        'qtd_rodas': 'Qtd. rodas',
-        'combustivel': 'Combustivel',
+        'potencia': 'Potência*',
+        'qtd_rodas': 'Qtd. rodas*',
         'data_venda': 'Data de venda',
+        'status': 'Status',
+    }
+        campos_relatorio_veiculo_disponivel = {
+        'tipo_veiculo': 'Tipo veiculo',
+        'numero_chassi': 'Número do chassi',
+        'data_fabricacao': 'Data de fabricação',
+        'nome': 'Nome',
+        'placa': 'Placa',
+        'cor': 'Cor',
+        'potencia': 'Potência*',
+        'qtd_rodas': 'Qtd. rodas*',
+        'valor': 'Valor',
         'status': 'Status',
     }
         

@@ -14,16 +14,29 @@ class Carro(Veiculos):
         'data_fabricacao': 'Data de fabricação',
         'nome': 'Nome',
         'placa': 'Placa',
+        'cor': 'Cor',
+        'potencia': "Potência*",
+        'qtd_portas': 'Quantidade de portas*',
+        'combustivel': 'Combustivel*',
         'valor': 'Valor',
         'cpf_comprador': 'CPF do comprador',
-        'cor': 'Cor',
-        'potencia': 'Potência',
-        'qtd_portas': 'Quantidade de portas',
-        'combustivel': 'Combustivel',
         'data_venda': 'Data de venda',
         'status': 'Status',
     }
-    
+    campos_relatorio_veiculo_disponivel = {
+        'tipo_veiculo': 'Tipo veiculo',
+        'numero_chassi': 'Número do chassi',
+        'data_fabricacao': 'Data de fabricação',
+        'nome': 'Nome',
+        'placa': 'Placa',
+        'cor': 'Cor',
+        'potencia': 'Potência*',
+        'qtd_portas': 'Quantidade de portas*',
+        'combustivel': 'Combustivel*',
+        'valor': 'Valor',
+        'status': 'Status',
+    }
+
     def __init__(self):
         super().__init__()
         self.tipo_veiculo = self.__class__.__name__

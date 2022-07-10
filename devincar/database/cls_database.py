@@ -27,8 +27,8 @@ class Database:
                                                            combustivel=dado['combustivel'])
                 self.dados_local.append(novo_carro)
 
-            elif dado['tipo_veiculo'] == 'Moto/Triciclo':
-                novo_moto = Moto()
+            elif dado['tipo_veiculo'] == 'MotoTriciclo':
+                novo_moto = MotoTriciclo()
                 novo_moto.carregamento_inicial(numero_chassi = dado['numero_chassi'],
                                                            data_fabricacao=dado['data_fabricacao'],
                                                            nome=dado['nome'],
@@ -86,7 +86,9 @@ class Database:
         valores_relatorio = []
         
         for veiculo in self.dados_local:
-            if tipo_veiculo == 'Todos':
+            if valor_filtro == 'Todos':
+                 valores_relatorio.append(veiculo.__dict__)
+            elif getattr(veiculo, valor_index) == valor_filtro and tipo_veiculo == 'Todos':
                 valores_relatorio.append(veiculo.__dict__)
             elif getattr(veiculo, valor_index) == valor_filtro and getattr(veiculo, 'tipo_veiculo') == tipo_veiculo:
                 valores_relatorio.append(veiculo.__dict__)

@@ -9,7 +9,7 @@ class Caminhonete(Veiculos):
     }
     
     cores_disponiveis = {
-        '1': "roxo",
+        '1': "Roxo",
     }
     
     tipo_veiculo = 'Caminhonete'
@@ -20,15 +20,29 @@ class Caminhonete(Veiculos):
         'data_fabricacao': 'Data de fabricação',
         'nome': 'Nome',
         'placa': 'Placa',
+        'cor': 'Cor',
+        'potencia': 'Potência*',
+        'qtd_portas': 'Quantidade de portas*',
+        'capacidade_carregamento': 'Capacidade de carregamento*',
+        'combustivel': 'Combustivel*',
         'valor': 'Valor',
         'cpf_comprador': 'CPF do comprador',
-        'cor': 'Cor',
-        'potencia': 'Potência',
-        'qtd_portas': 'Quantidade de portas',
-        'qtd_rodas': 'Qtd. rodas',
-        'capacidade_carregamento': 'Capacidade de carregamento',
-        'combustivel': 'Combustivel',
         'data_venda': 'Data de venda',
+        'status': 'Status',
+    }
+    
+    campos_relatorio_veiculo_disponivel = {
+        'tipo_veiculo': 'Tipo veiculo',
+        'numero_chassi': 'Número do chassi',
+        'data_fabricacao': 'Data de fabricação',
+        'nome': 'Nome',
+        'placa': 'Placa',
+        'cor': 'Cor',
+        'potencia': 'Potência*',
+        'qtd_portas': 'Quantidade de portas*',
+        'capacidade_carregamento': 'Capacidade de carregamento*',
+        'combustivel': 'Combustivel*',
+        'valor': 'Valor',
         'status': 'Status',
     }
     

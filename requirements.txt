@@ -1,9 +1,5 @@
-prettytable==3.3.0; python_version >= "3.7" \
-    --hash=sha256:d1c34d72ea2c0ffd6ce5958e71c428eb21a3d40bf3133afe319b24aeed5af407 \
-    --hash=sha256:118eb54fd2794049b810893653b20952349df6d3bc1764e7facd8a18064fa9b0
-tinydb==4.7.0; python_version >= "3.6" and python_version < "4.0" \
-    --hash=sha256:e2cdf6e2dad49813e9b5fceb3c7943387309a8738125fbff0b58d248a033f7a9 \
-    --hash=sha256:357eb7383dee6915f17b00596ec6dd2a890f3117bf52be28a4c516aeee581100
-wcwidth==0.2.5; python_version >= "3.7" \
-    --hash=sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784 \
-    --hash=sha256:c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83
+commonmark==0.9.1
+Pygments==2.12.0
+rich==12.4.4
+tinydb==4.7.0
+wcwidth==0.2.5
