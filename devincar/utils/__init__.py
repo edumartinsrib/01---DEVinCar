@@ -3,7 +3,7 @@ from .cls_table import Tables
 from .cls_validacoes import Validacoes
 
 __all__ = [
-   'Menu',
-   'Tables',
-   'Validacoes'
+    'Menu',
+    'Tables',
+    'Validacoes'
 ]
