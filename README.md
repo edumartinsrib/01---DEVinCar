@@ -57,22 +57,6 @@ As seguintes funcionalidades foram implementadas:
 - Registro de venda de veículos com histórico de transações detalhado
 - Confecção de relatórios automáticos com diversas oportunidades (tipo de veículo, disponibilidade, dentra outras)
 
-# 🎨 Layout
-
-<p> O aplicativo foi criado para utiliza via linha de commando, sendo possível sua utilização em qualquer sistema operacional.</p>
-
-## Mobile 📱
-<p align="left">
-  <img alt="home-mobile" title="#home-mobile" src="./src/assets/readme/mobile-logon.png" heigth="250px" >
-</p>
-
-## Web 💻
-
-<p align="left">
-  <img alt="home-web" title="#home-web" src="./src/assets/readme/web-login.png" width="900px">
-</p>
-
-
 
 # 🧑‍💻 Autor:
 
