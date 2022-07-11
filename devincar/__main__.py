@@ -235,7 +235,7 @@ if __name__ == "__main__":
                                                                    valor_filtro='vendido', tipo_veiculo='Todos')
                                     elif sub_opcao == "6":
                                         Veiculos().listar_veiculos(db=db, valor_index='menor',
-                                                                   valor_filtro='vendido', tipo_veiculo='Carro')
+                                                                   valor_filtro='vendido', tipo_veiculo='Todos')
 
                                     menu.limpar_menu(
                                         console=console, tipo='input', texto="Pressione qualquer tecla para continuar...", estilo='info')
